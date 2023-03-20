@@ -2,7 +2,7 @@ const http = require("http")
 const express = require("express")
 const app = express()
 const server = http.createServer(app)
-const {Server} = require("socket.io")
+// const {Server} = require("socket.io")
 const PORT = process.env.PORT || 3000
 
 app.use(express.json())
@@ -25,11 +25,17 @@ app.get("/", (req, res) => {
     res.send(uzers).status(200)
 })
 
-const io = new Server(server, {
-    cors: {
-        origin:['http://localhost:8080', 'https://dungeonborn.vercel.app']
+// const io = new Server(server, {
+//     cors: {
+//         origin:['http://localhost:8080', 'https://dungeonborn.vercel.app']
+//     }
+// })
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) => {
+      const noOriginHeader = req.headers.origin === undefined;
+      callback(null, noOriginHeader);
     }
-})
+});
 const log = console.log
 
 let leftGoblins = -45
