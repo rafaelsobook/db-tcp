@@ -25,17 +25,17 @@ app.get("/", (req, res) => {
     res.send(uzers).status(200)
 })
 
-// const io = new Server(server, {
-//     cors: {
-//         origin:['http://localhost:8080', 'https://dungeonborn.vercel.app']
-//     }
-// })
-const io = require("socket.io")(server, {
-    allowRequest: (req, callback) => {
-      const noOriginHeader = req.headers.origin === undefined;
-      callback(null, noOriginHeader);
+const io = new Server(server, {
+    cors: {
+        origin:['http://localhost:8080', 'https://dungeonborn.vercel.app']
     }
-});
+})
+// const io = require("socket.io")(server, {
+//     allowRequest: (req, callback) => {
+//       const noOriginHeader = req.headers.origin === undefined;
+//       callback(null, noOriginHeader);
+//     }
+// });
 const log = console.log
 
 let leftGoblins = -45
