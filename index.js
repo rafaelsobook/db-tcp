@@ -17,7 +17,9 @@ let orez = [
 ]
 // const {swampTreez} = require("./swampforest")
 let treez = [{ meshId: '4w2', spawntype: "trees", place: "swampforest", pos: "-50,2", hits: 2}]
-let treasurez = []
+const trsureSec = require("./trsureSec.js")
+let treasurez = trsureSec;
+
 let housez = []
 let bonfires = [{meshId: 'bon12bas', isCooking: false, pos: {x: 0, z: -45}, place: 'swampforest'}]
 
@@ -301,7 +303,11 @@ io.on("connection", socket => {
         io.emit("receiveWood", data)
     })
     socket.on("treasure", data => {
-        treasurez.push(data)
+        treasurez.push(data);
+        // { isOpening: false,itemType:"treasure",magRes: 10, meshId: '1243274', 
+        // name: "karba", openingBy: undefined, place: "swampforest", plusDef: 30,
+        //     plusDmg: 0, price: 20000, qnty: 1, x: 4, z: -32}
+           
         io.emit("putTreasure", data)
     })
     socket.on("sword", data => {
@@ -312,7 +318,7 @@ io.on("connection", socket => {
     socket.on("will-open-treasure", data => {
         io.emit('treasure-isOpening', data)
         treasurez = treasurez.map(tre => tre.meshId === data.meshId ? {...tre, openingBy: data.openingBy, isOpening: true} : tre)
-        log('is opening')
+        log('is opening treasure')
         uzers = uzers.map(user => user._id === data.openingBy ? {...user, mode: data.mode } : user)
     })
     socket.on("reclose-treasure", meshId => {
