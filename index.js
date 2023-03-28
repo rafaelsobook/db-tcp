@@ -153,6 +153,17 @@ while(hLandTL <= 136){
     })
     hLandTL += 3
 }
+let hLandBacktree = -70
+while(hLandBacktree <= 70){
+    treez.push({ 
+        meshId: Math.random().toString().split(".")[1], 
+        spawntype: "trees", 
+        place: "heartland", 
+        pos: `${hLandBacktree + Math.random()* 2}, ${66 + Math.random() * 7}`,
+        hits: 2
+    })
+    hLandBacktree += 3
+}
 // heartLand houses
 let hLandHoR = 10
 while(hLandHoR <= 50){
