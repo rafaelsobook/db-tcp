@@ -183,7 +183,7 @@ while(hLandHoR <= 50){
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},-30`,
-        houseNo: Math.floor(Math.random()*2.8)
+        houseNo: Math.floor(Math.random()*1.8)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
@@ -193,7 +193,7 @@ while(hLandHoR <= 50){
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},20`,
-        houseNo: Math.floor(Math.random()*2.8)
+        houseNo: Math.floor(Math.random()*1.8)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
@@ -215,22 +215,22 @@ while(hLandHoL >= -50){
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},-50`,
-        houseNo: Math.floor(Math.random()*1.5)
+        houseNo: Math.floor(Math.random()*1.9)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},-30`,
-        houseNo: Math.floor(Math.random()*1.5)
+        houseNo: Math.floor(Math.random()*1.9)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},0`,
-        houseNo: Math.floor(Math.random()*2.5)
+        houseNo: Math.floor(Math.random()*1.5)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},20`,
-        houseNo: Math.floor(Math.random()*1.5)
+        houseNo: Math.floor(Math.random()*1.9)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
