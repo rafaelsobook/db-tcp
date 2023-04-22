@@ -11,6 +11,7 @@ let uzers = []
 let lootz = []
 let monz = []
 let seedz = []
+let flowerz = []
 let orez = [
 { meshId: '145', spawntype: "ore", place: "swampforest", pos: "10,-30", hits: 30},
 { meshId: 'ore4512', spawntype: "ore", place: "swampforest", pos: "20,-30", hits: 30},
@@ -47,10 +48,10 @@ while(leftGoblins <= 10){
         place: "swampforest",
         monsLvl: 2,
         monsName: "goblin",
-        modelType: "Green",
+        armorName: "green",
         pos: {x: -70 + Math.random() * 10, z: leftGoblins + Math.random() * 2},
         spd: 2.7 + Math.random() * .5,
-        hp: 500,
+        hp: 300,
         maxHp: 300,
         atkInterval: 2000, 
         dmg: 20 + Math.random() * 30,
@@ -58,7 +59,7 @@ while(leftGoblins <= 10){
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 30
+        expGain: 40
     })
     leftGoblins += 4
 }
@@ -69,20 +70,43 @@ while(minotaur <= 100){
         place: "swampforest",
         monsLvl: 2,
         monsName: "minotaur",
-        modelType: "",
+        armorName: "",
         pos: {x: 70 + Math.random() * 10, z: minotaur + Math.random() * 2},
         spd: 3 + Math.random() * .5, 
         hp: 1000,
-        maxHp: 500,
+        maxHp: 1000,
         atkInterval: 2400, 
         dmg: 20 + Math.random() * 30,
         isChasing: false,
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 80
+        expGain: 90
     })
     minotaur += 24
+}
+
+let snake = -40
+while(snake <= 40){
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "swampforest",
+        monsLvl: 2,
+        monsName: "viper",
+        armorName: "",
+        pos: {z: 50 + Math.random() * 8, x: snake},
+        spd: 3 + Math.random() * .6, 
+        hp: 1000,
+        maxHp: 1000,
+        atkInterval: 2500, 
+        dmg: 5 + Math.random() * 30,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 90
+    })
+    snake += 10
 }
 
 // TREES SWAMPFOREST
@@ -129,6 +153,18 @@ while(centerBack <= 30){
         hits: 2
     })
     centerBack += 2
+}
+// flowers
+let flowersBack = -30
+while(flowersBack <= 40){
+    flowerz.push({ 
+        meshId: makeRandNum(), 
+        spawntype: "flowers", 
+        place: "swampforest", 
+        pos: {x: flowersBack,z: 45 + Math.random()*15},
+        name: "stam1"
+    })
+    flowersBack += 5
 }
 // TREES HEARTLEAND
 let hLandTR = 0
@@ -241,8 +277,9 @@ while(hLandHoL >= -50){
 }
 
 setInterval(() => {
-    log('Uzers length ' + uzers.length)
-    log('HOUSEZ length ' + housez.length)
+    // log('Uzers length ' + uzers.length)
+    // log('HOUSEZ length ' + housez.length)
+    uzers.forEach(uzr => log(uzr.weapon.name))
 }, 8000)
 io.on("connection", socket => {
     
@@ -252,7 +289,7 @@ io.on("connection", socket => {
         if(isUser) return log("user already in")
         uzers.push({...data, socketId: socket.id})
         log(`${data.name} has joined`)
-        io.emit("userJoined", {uzers,orez,treez, seedz, monz, treasurez, lootz, housez, bonfires}) //monz is the AI monsters
+        io.emit("userJoined", {uzers,orez,treez, seedz, monz, treasurez, lootz, housez, bonfires, flowerz}) //monz is the AI monsters
     })
     socket.on("stop", detal => {
         const theUser = uzers.find(user => user._id === detal._id)
@@ -401,6 +438,10 @@ io.on("connection", socket => {
         monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isChasing: true, isAttacking: false, targHero: data.targHero} : mon)
         io.emit("monsIsChasing", data)
     })
+    socket.on("monsWillStop", data => {
+        monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isChasing: false, isAttacking: false, targHero: undefined, pos: data.pos} : mon)
+        io.emit("monsStopped", data)
+    })
     socket.on("monsWillAttack", data => {
         monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isAttacking: true, isChasing: false, targHero: data.targHero, pos: data.pos} : mon)
         io.emit("monsAttack", data)
@@ -453,10 +494,47 @@ io.on("connection", socket => {
         uzers = uzers.map(uzer => uzer._id === data._id ? {...uzer, armor: data.armorDetail, mode: data.mode} : uzer)
         io.emit("aUserEquipArmor", data)
     })
+    socket.on("equipGear", data => {
+        uzers = uzers.map(uzer => uzer._id === data._id ? {...uzer, gear: data.itemDetail, mode: data.mode} : uzer)
+        io.emit("aUserEquipGear", data)
+    })
+    socket.on("equipingShield", data => {
+        uzers = uzers.map(uzer => uzer._id === data._id ? {...uzer, shield: data.itemDetail, mode: data.mode} : uzer)
+        io.emit("aUserEquipShield", data)
+    })
+    socket.on("equipingHelmet", data => {
+        uzers = uzers.map(uzer => uzer._id === data._id ? {...uzer, helmet: data.itemDetail, mode: data.mode} : uzer)
+        io.emit("aUserEquipHelmet", data)
+    })
+    socket.on("unequip", data => {
+        switch(data.itemType){
+            case "armor":
+                uzers = uzers.map(uzer => uzer._id === data._id ? {...uzer, armor: "none"} : uzer)
+            break;
+            case "gear":
+                uzers = uzers.map(uzer => uzer._id === data._id ? {...uzer, gear: "none"} : uzer)
+            break;
+            case "helmet":
+                uzers = uzers.map(uzer => uzer._id === data._id ? {...uzer, helmet: "none"} : uzer)
+            break;
+            case "shield":
+                uzers = uzers.map(uzer => uzer._id === data._id ? {...uzer, shield: "none"} : uzer)
+            break;
+            case "sword":
+                uzers = uzers.map(uzer => uzer._id === data._id ? {...uzer, sword: "none"} : uzer)
+            break;
+        }
+        io.emit("aUserUnEquiped", data)
+    })
     socket.on("pickSword", data => {
         lootz = lootz.filter(loot => loot.meshId !== data.meshId)
 
         io.emit("swordIsPicked", data)
+    })
+    socket.on("pickFlower", data => {
+        flowerz = flowerz.filter(loot => loot.meshId !== data.meshId)
+
+        io.emit("flowerIsPicked", data)
     })
     socket.on("ping", data => {
         io.emit('pinged', {name: data.name, length: uzers.length})
