@@ -29,7 +29,6 @@ let bonfires = [{meshId: 'bon12bas', isCooking: false, pos: {x: 0, z: -45}, plac
 app.get("/", (req, res) => {
     res.send(uzers).status(200)
 })
-const io = new Server(server)
 const io = new Server(server, {
     cors: { 
         origin:['https://rafael29.itch.io/dungeon-born','https://v6p9d9t4.ssl.hwcdn.net','http://localhost:8080', 'https://dungeonborn.vercel.app'],
