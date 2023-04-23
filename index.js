@@ -1,9 +1,11 @@
 const http = require("http")
 const express = require("express")
 const app = express()
+const cors = require("cors");
 const server = http.createServer(app)
 const {Server} = require("socket.io")
 const PORT = process.env.PORT || 3000
+
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
@@ -27,12 +29,13 @@ let bonfires = [{meshId: 'bon12bas', isCooking: false, pos: {x: 0, z: -45}, plac
 app.get("/", (req, res) => {
     res.send(uzers).status(200)
 })
-
+const io = new Server(server)
 const io = new Server(server, {
     cors: {
-        origin:['http://localhost:8080', 'https://dungeonborn.vercel.app']
+        origin:['https://v6p9d9t4.ssl.hwcdn.net','http://localhost:8080', 'https://dungeonborn.vercel.app']
     }
 })
+// ,'http://localhost:8080', 'https://dungeonborn.vercel.app'
 // const io = require("socket.io")(server, {
 //     allowRequest: (req, callback) => {
 //       const noOriginHeader = req.headers.origin === undefined;
