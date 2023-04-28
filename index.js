@@ -56,7 +56,7 @@ while(leftGoblins <= 10){
         spd: 2.7 + Math.random() * .5,
         hp: 300,
         maxHp: 300,
-        atkInterval: 2000, 
+        atkInterval: 1900, 
         dmg: 20 + Math.random() * 30,
         isChasing: false,
         isAttacking: false,
@@ -101,7 +101,7 @@ while(snake <= 40){
         spd: 3 + Math.random() * .6, 
         hp: 1000,
         maxHp: 1000,
-        atkInterval: 2500, 
+        atkInterval: 1800, 
         dmg: 5 + Math.random() * 30,
         isChasing: false,
         isAttacking: false,
@@ -301,6 +301,14 @@ io.on("connection", socket => {
         io.emit("aUzerStopped", detal)
         log(`${theUser.name} has stoped walking !`)
         uzers = uzers.map(user => user._id === detal._id ? {...user, _minning: false, _training: false, dirTarg: { x:detal.dirTarg.x ,z:detal.dirTarg.z}, x: detal.mypos.x, z: detal.mypos.z, mode: detal.mode} : user)
+    })
+    socket.on("redirectTarg", detal => {
+        const theUser = uzers.find(user => user._id === detal._id)
+        if(!theUser) return log("the uzer stop is not registered on the uzers")
+  
+        io.emit("targetChanged", detal)
+        log(`${theUser.name} has changed target !`)
+        uzers = uzers.map(user => user._id === detal._id ? {...user, _minning: false, _training: false, dirTarg: { x:detal.dirTarg.x ,z:detal.dirTarg.z}} : user)
     })
     socket.on("stop-dosomething", detal => {
         const theUser = uzers.find(user => user._id === detal._id)
