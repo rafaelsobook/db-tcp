@@ -24,7 +24,7 @@ const trsureSec = require("./trsureSec.js")
 let treasurez = trsureSec;
 
 let housez = []
-let bonfires = [{meshId: 'bon12bas', isCooking: false, pos: {x: 0, z: -45}, place: 'swampforest'}]
+let bonfires = [{meshId: 'bon12bas', isCooking: false, pos: {x: -14, z: -21}, place: 'swampforest'}]
 
 app.get("/", (req, res) => {
     res.send(uzers).status(200)
@@ -52,6 +52,7 @@ while(leftGoblins <= 10){
         monsLvl: 2,
         monsName: "goblin",
         armorName: "green",
+        monsBreed: "normal",
         pos: {x: -70 + Math.random() * 10, z: leftGoblins + Math.random() * 2},
         spd: 2.7 + Math.random() * .5,
         hp: 300,
@@ -74,6 +75,7 @@ while(minotaur <= 100){
         monsLvl: 2,
         monsName: "minotaur",
         armorName: "",
+        monsBreed: "normal",
         pos: {x: 70 + Math.random() * 10, z: minotaur + Math.random() * 2},
         spd: 3 + Math.random() * .5, 
         hp: 1000,
@@ -97,20 +99,23 @@ while(snake <= 40){
         monsLvl: 2,
         monsName: "viper",
         armorName: "",
+        monsBreed: "normal",
         pos: {z: 50 + Math.random() * 8, x: snake},
         spd: 3 + Math.random() * .6, 
         hp: 1000,
         maxHp: 1000,
-        atkInterval: 1800, 
-        dmg: 5 + Math.random() * 30,
+        atkInterval: 1500, 
+        dmg: 65 + Math.random() * 30,
         isChasing: false,
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 90
+        expGain: 150
     })
     snake += 10
 }
+
+
 
 // TREES SWAMPFOREST
 let rightT1 = 0
@@ -165,7 +170,7 @@ while(flowersBack <= 40){
         spawntype: "flowers", 
         place: "swampforest", 
         pos: {x: flowersBack,z: 45 + Math.random()*15},
-        name: "stam1"
+        name: "stam1",
     })
     flowersBack += 5
 }
@@ -217,27 +222,27 @@ while(hLandHoR <= 50){
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},-50`,
-        houseNo: Math.floor(Math.random()*1.8)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},-30`,
-        houseNo: Math.floor(Math.random()*1.8)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},0`,
-        houseNo: Math.floor(Math.random()*1.8)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},20`,
-        houseNo: Math.floor(Math.random()*1.8)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},40`,
-        houseNo: Math.floor(Math.random()*1.8)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     hLandHoR += 10
 }
@@ -254,27 +259,27 @@ while(hLandHoL >= -50){
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},-50`,
-        houseNo: Math.floor(Math.random()*1.9)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},-30`,
-        houseNo: Math.floor(Math.random()*1.9)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},0`,
-        houseNo: Math.floor(Math.random()*1.5)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},20`,
-        houseNo: Math.floor(Math.random()*1.9)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},40`,
-        houseNo: Math.floor(Math.random()*1.5)
+        houseNo: Math.floor(Math.random()*1.4)
     })
     hLandHoL -= 10
 }
@@ -284,8 +289,51 @@ setInterval(() => {
     // log('HOUSEZ length ' + housez.length)
     uzers.forEach(uzr => log(uzr.weapon.name))
 }, 8000)
-io.on("connection", socket => {
+
+let worldTime = 1 // 0 - 1 is morning 1-2 is going night
+let isNight = false
+let timeToAddDeduct = .1
+let theSocket = undefined
+setInterval(() => {
+    if(theSocket === undefined) return
     
+    if(!isNight){
+        worldTime-=.01
+        if(worldTime < .2) isNight = true
+    }
+    if(isNight){
+        worldTime+=.01
+        if(worldTime > .9) isNight = false
+    }
+    io.emit("time-changed", {worldTime})
+    log(monz.length)
+    if(monz.length >= 32) return log("monsters are full")
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "swampforest",
+        monsLvl: 2,
+        monsName: "goblin",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: -70 + Math.random() * 10, z: -50 + Math.random()*60},
+        spd: 2.8 + Math.random() * .6,
+        hp: 300,
+        maxHp: 300,
+        atkInterval: 1900, 
+        dmg: 20 + Math.random() * 30,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 40
+    })
+    io.emit("add-monster", monz)
+}, 1000)
+
+
+
+io.on("connection", socket => {
+    theSocket = socket
     socket.on("join", data => {
         log('someone joined')
         const isUser = uzers.some(user => user._id === data._id)
@@ -445,10 +493,12 @@ io.on("connection", socket => {
         })
         log("mons length  " + data.length)
     })
+
     socket.on("monsWillChase", data => {
         monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isChasing: true, isAttacking: false, targHero: data.targHero} : mon)
         io.emit("monsIsChasing", data)
     })
+
     socket.on("monsWillStop", data => {
         monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isChasing: false, isAttacking: false, targHero: undefined, pos: data.pos} : mon)
         io.emit("monsStopped", data)
