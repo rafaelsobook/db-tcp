@@ -298,11 +298,11 @@ setInterval(() => {
     if(theSocket === undefined) return
     
     if(!isNight){
-        worldTime-=.01
+        worldTime-=.005
         if(worldTime < .2) isNight = true
     }
     if(isNight){
-        worldTime+=.01
+        worldTime+=.005
         if(worldTime > .9) isNight = false
     }
     io.emit("time-changed", {worldTime})
@@ -327,7 +327,14 @@ setInterval(() => {
         targHero: undefined,
         expGain: 40
     })
-    io.emit("add-monster", monz)
+    flowerz.push({ 
+        meshId: makeRandNum(), 
+        spawntype: "flowers", 
+        place: "swampforest", 
+        pos: {x: -25 + Math.random()*50,z: 45 + Math.random()*15},
+        name: "stam1",
+    })
+    io.emit("add-recources", {monz, flowerz})
 }, 1000)
 
 
