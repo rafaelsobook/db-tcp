@@ -213,7 +213,7 @@ let hLandHoR = 10
 while(hLandHoR <= 50){
     let houseDet = {
         meshId: '123',
-        spawntype: "house",
+        spawntype: "apartment",
         place: "heartland",
         pos: "1,2",
         houseNo: 2,
@@ -222,27 +222,35 @@ while(hLandHoR <= 50){
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},-50`,
-        houseNo: Math.floor(Math.random()*1.4)
+        houseNo: Math.floor(Math.random()*1.4),
+        spawntype: "apartment",
+        occupiedBy: "none"
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},-30`,
-        houseNo: Math.floor(Math.random()*1.4)
+        houseNo: Math.floor(Math.random()*1.4),
+        spawntype: "apartment",
+        occupiedBy: "none"
     })
-    housez.push({...houseDet, 
-        meshId: makeRandNum(),
-        pos: `${hLandHoR},0`,
-        houseNo: Math.floor(Math.random()*1.4)
-    })
+    // housez.push({...houseDet, 
+    //     meshId: makeRandNum(),
+    //     pos: `${hLandHoR},0`,
+    //     houseNo: Math.floor(Math.random()*1.4)
+    // })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},20`,
-        houseNo: Math.floor(Math.random()*1.4)
+        houseNo: Math.floor(Math.random()*1.4),
+        spawntype: "apartment",
+        occupiedBy: "none"
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},40`,
-        houseNo: Math.floor(Math.random()*1.4)
+        houseNo: Math.floor(Math.random()*1.4),
+        spawntype: "apartment",
+        occupiedBy: "none"
     })
     hLandHoR += 10
 }
@@ -344,7 +352,10 @@ io.on("connection", socket => {
     socket.on("join", data => {
         log('someone joined')
         const isUser = uzers.some(user => user._id === data._id)
-        if(isUser) return log("user already in")
+        if(isUser){
+            io.emit("deliver-reload", data._id)
+            return log("user already in")
+        }
         uzers.push({...data, socketId: socket.id})
         log(`${data.name} has joined`)
         io.emit("userJoined", {uzers,orez,treez, seedz, monz, treasurez, lootz, housez, bonfires, flowerz}) //monz is the AI monsters
