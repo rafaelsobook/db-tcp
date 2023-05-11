@@ -110,7 +110,8 @@ while(snake <= 40){
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 150
+        expGain: 150,
+        effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     })
     snake += 10
 }
@@ -171,6 +172,20 @@ while(flowersBack <= 40){
         place: "swampforest", 
         pos: {x: flowersBack,z: 45 + Math.random()*15},
         name: "stam1",
+    })
+    flowerz.push({ 
+        meshId: makeRandNum(), 
+        spawntype: "herbs", 
+        place: "swampforest", 
+        pos: {x: -65 + Math.random()*25 ,z: flowersBack+Math.random()*9,},
+        name: "lotusHerb",
+    })
+    flowerz.push({ 
+        meshId: makeRandNum(), 
+        spawntype: "herbs", 
+        place: "swampforest", 
+        pos: {x: 65 + Math.random()*25 ,z: flowersBack+Math.random()*9,},
+        name: "lotusHerb",
     })
     flowersBack += 5
 }
@@ -325,8 +340,8 @@ setInterval(() => {
         monsBreed: "normal",
         pos: {x: -70 + Math.random() * 10, z: -50 + Math.random()*60},
         spd: 2.8 + Math.random() * .6,
-        hp: 300,
-        maxHp: 300,
+        hp: 450,
+        maxHp: 450,
         atkInterval: 1900, 
         dmg: 20 + Math.random() * 30,
         isChasing: false,
@@ -627,9 +642,9 @@ io.on("connection", socket => {
         const theUzer = uzers.find(user => user._id === data._id)
         if(theUzer){
             uzers = uzers.filter(user => user._id !== data._id)
-            monz = monz.map(mon => mon.targHero === theUzer._id ? {...mon, isChasing: false, targHero: undefined} : mon)
+            monz = monz.map(mon => mon.targHero === theUzer._id ? {...mon, isChasing: false, isAttacking: false, targHero: undefined} : mon)
         }
-        log(uzers)
+        log("total of players after disconnect " + uzers.length)
         io.emit('removeChar', data)
     })
     socket.on("disconnect", () => {
@@ -637,8 +652,9 @@ io.on("connection", socket => {
         if(theUzer){
             const newArr = uzers.filter(user => user.socketId !== socket.id)
             uzers = newArr
-            monz = monz.map(mon => mon.targHero === theUzer._id ? {...mon, isChasing: false, targHero: undefined} : mon)
+            monz = monz.map(mon => mon.targHero === theUzer._id ? {...mon, isChasing: false, isAttacking: false, targHero: undefined} : mon)
             io.emit("aUserDisconnect", theUzer._id)
+            log("total of players after disconnect " + uzers.length)
         }else{log("a user disconnects not found !")}
     })
 })
