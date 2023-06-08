@@ -90,34 +90,75 @@ while(minotaur <= 100){
     })
     minotaur += 24
 }
-
-let snake = -40
-while(snake <= 40){
+// let snake = -40
+// while(snake <= 40){
+//     monz.push({ 
+//         monsId: makeRandNum(), 
+//         place: "swampforest",
+//         monsLvl: 2,
+//         monsName: "viper",
+//         armorName: "",
+//         monsBreed: "normal",
+//         pos: {z: 50 + Math.random() * 8, x: snake},
+//         spd: 3 + Math.random() * .6, 
+//         hp: 1000,
+//         maxHp: 1000,
+//         atkInterval: 1500, 
+//         dmg: 65 + Math.random() * 30,
+//         isChasing: false,
+//         isAttacking: false,
+//         isHit: false,
+//         targHero: undefined,
+//         expGain: 150,
+//         effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+//     })
+//     snake += 10
+// }
+let golems = -40
+while(golems <= 40){
     monz.push({ 
         monsId: makeRandNum(), 
-        place: "swampforest",
+        place: "hiddenland",
         monsLvl: 2,
-        monsName: "viper",
+        monsName: "golem",
         armorName: "",
         monsBreed: "normal",
-        pos: {z: 50 + Math.random() * 8, x: snake},
-        spd: 3 + Math.random() * .6, 
+        pos: {z: -40 + Math.random() * 8, x: golems},
+        spd: 2 + Math.random() * .4, 
         hp: 1000,
         maxHp: 1000,
-        atkInterval: 1500, 
-        dmg: 65 + Math.random() * 30,
+        atkInterval: 2100, 
+        dmg: 5 + Math.random() * 1,
         isChasing: false,
         isAttacking: false,
         isHit: false,
         targHero: undefined,
         expGain: 150,
-        effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+        //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     })
-    snake += 10
+    golems += 10
 }
-
-
-
+// one golem in swampforest
+monz.push({ 
+    monsId: makeRandNum(), 
+    place: "swampforest",
+    monsLvl: 2,
+    monsName: "golem",
+    armorName: "",
+    monsBreed: "normal",
+    pos: {z: 89, x: -7},
+    spd: 2 + Math.random() * .4, 
+    hp: 1000,
+    maxHp: 1000,
+    atkInterval: 2000, 
+    dmg: 100 + Math.random() * 1,
+    isChasing: false,
+    isAttacking: false,
+    isHit: false,
+    targHero: undefined,
+    expGain: 250,
+    //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+})
 // TREES SWAMPFOREST
 let rightT1 = 0
 while(rightT1 <= 90){
@@ -129,6 +170,20 @@ while(rightT1 <= 90){
         hits: 30
     })
     rightT1 += 3
+    if(rightT1 >= 71) treez.push({ 
+        meshId: Math.random().toString().split(".")[1], 
+        spawntype: "trees", 
+        place: "swampforest", 
+        pos: `${-5 + Math.random() * 6},${76+Math.random()*8}`,
+        hits: 10273230
+    })
+    if(rightT1 >= 71) treez.push({ 
+        meshId: Math.random().toString().split(".")[1], 
+        spawntype: "trees", 
+        place: "swampforest", 
+        pos: `${-10 - Math.random() * 6},${76+Math.random()*8}`,
+        hits: 10273230
+    })
 }
 let leftT = 0
 while(leftT <= 90){
