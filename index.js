@@ -65,6 +65,25 @@ while(leftGoblins <= 10){
         targHero: undefined,
         expGain: 40
     })
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "hiddenland",
+        monsLvl: 5,
+        monsName: "goblin",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: -70 + Math.random() * 140, z: -70 + Math.random() * 140},
+        spd: 2.7 + Math.random() * .5,
+        hp: 400,
+        maxHp: 300,
+        atkInterval: 1900, 
+        dmg: 30 + Math.random() * 30,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 120
+    })
     leftGoblins += 4
 }
 let minotaur = -70
@@ -90,30 +109,52 @@ while(minotaur <= 100){
     })
     minotaur += 24
 }
-// let snake = -40
-// while(snake <= 40){
-//     monz.push({ 
-//         monsId: makeRandNum(), 
-//         place: "swampforest",
-//         monsLvl: 2,
-//         monsName: "viper",
-//         armorName: "",
-//         monsBreed: "normal",
-//         pos: {z: 50 + Math.random() * 8, x: snake},
-//         spd: 3 + Math.random() * .6, 
-//         hp: 1000,
-//         maxHp: 1000,
-//         atkInterval: 1500, 
-//         dmg: 65 + Math.random() * 30,
-//         isChasing: false,
-//         isAttacking: false,
-//         isHit: false,
-//         targHero: undefined,
-//         expGain: 150,
-//         effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
-//     })
-//     snake += 10
-// }
+let snake = -30
+while(snake <= 30){
+    if(snake > 5){
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "swampforest",
+            monsLvl: 2,
+            monsName: "viper",
+            armorName: "",
+            monsBreed: "normal",
+            pos: {z: 50 + Math.random() * 8, x: snake},
+            spd: 3 + Math.random() * .6, 
+            hp: 1000,
+            maxHp: 1000,
+            atkInterval: 1500, 
+            dmg: 65 + Math.random() * 20,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 150,
+            effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+        })
+    }
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "hiddenland",
+        monsLvl: 2,
+        monsName: "viper",
+        armorName: "",
+        monsBreed: "normal",
+        pos: {z: -50 + Math.random() * 50, x: -50 + Math.random() * 50},
+        spd: 3 + Math.random() * .6, 
+        hp: 1200,
+        maxHp: 1200,
+        atkInterval: 1800, 
+        dmg: 65 + Math.random() * 20,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 150,
+        effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+    })
+    snake += 10
+}
 let golems = -40
 while(golems <= 40){
     monz.push({ 
@@ -123,7 +164,7 @@ while(golems <= 40){
         monsName: "golem",
         armorName: "",
         monsBreed: "normal",
-        pos: {z: -40 + Math.random() * 8, x: golems},
+        pos: {z: -80 + Math.random() * 80, x: -80 + Math.random() * 80},
         spd: 2 + Math.random() * .4, 
         hp: 1000,
         maxHp: 1000,
@@ -133,7 +174,7 @@ while(golems <= 40){
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 150,
+        expGain: 270,
         //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     })
     golems += 10
@@ -159,6 +200,18 @@ monz.push({
     expGain: 250,
     //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
 })
+// TREES HIDDEN LAND
+let hlandTrees = 0
+while(hlandTrees <= 190){
+    treez.push({ 
+        meshId: makeRandNum(), 
+        spawntype: "trees", 
+        place: "hiddenland", 
+        pos: `${-81 + Math.random() * 161},${-81 + Math.random() * 161}`,
+        hits: 130
+    })
+    hlandTrees += 1
+}
 // TREES SWAMPFOREST
 let rightT1 = 0
 while(rightT1 <= 90){
@@ -169,7 +222,8 @@ while(rightT1 <= 90){
         pos: `${-61 + Math.random() * 20},${rightT1 === 0 ? -75 : -75 + rightT1 + Math.random()}`,
         hits: 30
     })
-    rightT1 += 3
+    // SWAMPFOREST NEAR ENTRANCE TO HIDDEN LAND
+
     if(rightT1 >= 71) treez.push({ 
         meshId: Math.random().toString().split(".")[1], 
         spawntype: "trees", 
@@ -184,6 +238,23 @@ while(rightT1 <= 90){
         pos: `${-10 - Math.random() * 6},${76+Math.random()*8}`,
         hits: 10273230
     })
+    // HIDDEN LAND NEAR ENTRANCE TO HIDDEN LAND
+    // entrance
+    if(rightT1 >= 71) treez.push({ 
+        meshId: Math.random().toString().split(".")[1], 
+        spawntype: "trees", 
+        place: "hiddenland", 
+        pos: `${-5 + Math.random() * 6},${-100+Math.random()*8}`,
+        hits: 10273230
+    })
+    if(rightT1 >= 71) treez.push({ 
+        meshId: Math.random().toString().split(".")[1], 
+        spawntype: "trees", 
+        place: "hiddenland", 
+        pos: `${-10 - Math.random() * 6},${-100+Math.random()*8}`,
+        hits: 10273230
+    })
+    rightT1 += 3
 }
 let leftT = 0
 while(leftT <= 90){
@@ -415,8 +486,6 @@ setInterval(() => {
     io.emit("add-recources", {monz, flowerz})
 }, 1000)
 
-
-
 io.on("connection", socket => {
     theSocket = socket
     socket.on("join", data => {
@@ -473,7 +542,12 @@ io.on("connection", socket => {
         io.emit('userAttack', data)
         uzers = uzers.map(user => user._id === data._id ? {...user, mode: data.mode, dirTarg: data.dirTarg } : user)
     })
-
+    socket.on("will-throw", data => {
+        io.emit('user-throw', data)
+    })
+    socket.on("action-willthrow", data => {
+        io.emit("action-throwing", data)
+    })
     socket.on("userMine", data => {
         io.emit("userIsMinning", data)
         uzers = uzers.map(user => user._id === data._id ? {...user, x: data.pos.x, z: data.pos.z, dirTarg: data.dirTarg, _minning: true, mode: data.mode } : user)
