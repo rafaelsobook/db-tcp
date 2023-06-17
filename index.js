@@ -457,6 +457,7 @@ setInterval(() => {
     io.emit("time-changed", {worldTime})
     log(monz.length)
     if(monz.length >= 32) return log("monsters are full")
+    // goblins
     monz.push({ 
         monsId: makeRandNum(), 
         place: "swampforest",
@@ -476,12 +477,41 @@ setInterval(() => {
         targHero: undefined,
         expGain: 40
     })
+    //minotaur
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "swampforest",
+        monsLvl: 2,
+        monsName: "minotaur",
+        armorName: "",
+        monsBreed: "normal",
+        pos: {x: 70 + Math.random() * 10, z: -70 + Math.random() * 120},
+        spd: 3 + Math.random() * .5, 
+        hp: 1000,
+        maxHp: 1000,
+        atkInterval: 2400, 
+        dmg: 20 + Math.random() * 30,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 90
+    })
+    // stam flowers
     flowerz.push({ 
         meshId: makeRandNum(), 
         spawntype: "flowers", 
         place: "swampforest", 
         pos: {x: -25 + Math.random()*50,z: 45 + Math.random()*15},
         name: "stam1",
+    })
+    // herbs
+    flowerz.push({ 
+        meshId: makeRandNum(), 
+        spawntype: "herbs", 
+        place: "swampforest", 
+        pos: {x: 65 + Math.random()*25 ,z: -70+Math.random()*140,},
+        name: "lotusHerb",
     })
     io.emit("add-recources", {monz, flowerz})
 }, 1000)
