@@ -351,26 +351,27 @@ while(hLandBacktree <= 70){
 }
 // heartLand houses
 let hLandHoR = 10
+const houseNoMax = 1
 while(hLandHoR <= 50){
     let houseDet = {
         meshId: '123',
         spawntype: "apartment",
         place: "heartland",
         pos: "1,2",
-        houseNo: 2,
+        houseNo: 1,
         occupiedBy: 'none',
     }
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},-50`,
-        houseNo: Math.floor(Math.random()*1.4),
+        houseNo: Math.floor(Math.random()*houseNoMax),
         spawntype: "apartment",
         occupiedBy: "none"
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},-30`,
-        houseNo: Math.floor(Math.random()*1.4),
+        houseNo: Math.floor(Math.random()*houseNoMax),
         spawntype: "apartment",
         occupiedBy: "none"
     })
@@ -382,14 +383,14 @@ while(hLandHoR <= 50){
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},20`,
-        houseNo: Math.floor(Math.random()*1.4),
+        houseNo: Math.floor(Math.random()*houseNoMax),
         spawntype: "apartment",
         occupiedBy: "none"
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},40`,
-        houseNo: Math.floor(Math.random()*1.4),
+        houseNo: Math.floor(Math.random()*houseNoMax),
         spawntype: "apartment",
         occupiedBy: "none"
     })
@@ -408,27 +409,27 @@ while(hLandHoL >= -50){
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},-50`,
-        houseNo: Math.floor(Math.random()*1.4)
+        houseNo: Math.floor(Math.random()*houseNoMax)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},-30`,
-        houseNo: Math.floor(Math.random()*1.4)
+        houseNo: Math.floor(Math.random()*houseNoMax)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},0`,
-        houseNo: Math.floor(Math.random()*1.4)
+        houseNo: Math.floor(Math.random()*houseNoMax)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},20`,
-        houseNo: Math.floor(Math.random()*1.4)
+        houseNo: Math.floor(Math.random()*houseNoMax)
     })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},40`,
-        houseNo: Math.floor(Math.random()*1.4)
+        houseNo: Math.floor(Math.random()*houseNoMax)
     })
     hLandHoL -= 10
 }
@@ -456,64 +457,70 @@ setInterval(() => {
     }
     io.emit("time-changed", {worldTime})
     log(monz.length)
-    if(monz.length >= 32) return log("monsters are full")
-    // goblins
-    monz.push({ 
-        monsId: makeRandNum(), 
-        place: "swampforest",
-        monsLvl: 2,
-        monsName: "goblin",
-        armorName: "green",
-        monsBreed: "normal",
-        pos: {x: -70 + Math.random() * 10, z: -50 + Math.random()*60},
-        spd: 2.8 + Math.random() * .6,
-        hp: 450,
-        maxHp: 450,
-        atkInterval: 1900, 
-        dmg: 20 + Math.random() * 30,
-        isChasing: false,
-        isAttacking: false,
-        isHit: false,
-        targHero: undefined,
-        expGain: 40
+    let monzInSwamp = 0
+    monz.forEach(mns => {
+        if(mns.place === "swampforest") monzInSwamp++
     })
-    //minotaur
-    monz.push({ 
-        monsId: makeRandNum(), 
-        place: "swampforest",
-        monsLvl: 2,
-        monsName: "minotaur",
-        armorName: "",
-        monsBreed: "normal",
-        pos: {x: 70 + Math.random() * 10, z: -70 + Math.random() * 120},
-        spd: 3 + Math.random() * .5, 
-        hp: 1000,
-        maxHp: 1000,
-        atkInterval: 2400, 
-        dmg: 20 + Math.random() * 30,
-        isChasing: false,
-        isAttacking: false,
-        isHit: false,
-        targHero: undefined,
-        expGain: 90
-    })
-    // stam flowers
-    flowerz.push({ 
-        meshId: makeRandNum(), 
-        spawntype: "flowers", 
-        place: "swampforest", 
-        pos: {x: -25 + Math.random()*50,z: 45 + Math.random()*15},
-        name: "stam1",
-    })
-    // herbs
-    flowerz.push({ 
-        meshId: makeRandNum(), 
-        spawntype: "herbs", 
-        place: "swampforest", 
-        pos: {x: 65 + Math.random()*25 ,z: -70+Math.random()*140,},
-        name: "lotusHerb",
-    })
-    io.emit("add-recources", {monz, flowerz})
+    if(monzInSwamp <= 32){
+        // goblins
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "swampforest",
+            monsLvl: 2,
+            monsName: "goblin",
+            armorName: "green",
+            monsBreed: "normal",
+            pos: {x: -70 + Math.random() * 10, z: -50 + Math.random()*60},
+            spd: 2.8 + Math.random() * .6,
+            hp: 450,
+            maxHp: 450,
+            atkInterval: 1900, 
+            dmg: 20 + Math.random() * 30,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 40
+        })
+        //minotaur
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "swampforest",
+            monsLvl: 2,
+            monsName: "minotaur",
+            armorName: "",
+            monsBreed: "normal",
+            pos: {x: 70 + Math.random() * 10, z: -70 + Math.random() * 120},
+            spd: 3 + Math.random() * .5, 
+            hp: 1000,
+            maxHp: 1000,
+            atkInterval: 2400, 
+            dmg: 20 + Math.random() * 30,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 90
+        })
+        // stam flowers 
+        flowerz.push({ 
+            meshId: makeRandNum(), 
+            spawntype: "flowers", 
+            place: "swampforest", 
+            pos: {x: -25 + Math.random()*50,z: 45 + Math.random()*15},
+            name: "stam1",
+        })
+        // herbs
+        flowerz.push({ 
+            meshId: makeRandNum(), 
+            spawntype: "herbs", 
+            place: "swampforest", 
+            pos: {x: 65 + Math.random()*25 ,z: -70+Math.random()*140,},
+            name: "lotusHerb",
+        })
+        io.emit("add-recources", {monz, flowerz})
+    }
+
 }, 1000)
 
 io.on("connection", socket => {
@@ -523,11 +530,12 @@ io.on("connection", socket => {
         const isUser = uzers.some(user => user._id === data._id)
         if(isUser){
             io.emit("deliver-reload", data._id)
-            return log("user already in")
+            log("user already in")
+        }else{
+            uzers.push({...data, socketId: socket.id})
+            log(`${data.name} has joined`)
+            io.emit("userJoined", {_id: data._id, place: data.currentPlace,uzers,orez,treez, seedz, monz, treasurez, lootz, housez, bonfires, flowerz}) //monz is the AI monsters    
         }
-        uzers.push({...data, socketId: socket.id})
-        log(`${data.name} has joined`)
-        io.emit("userJoined", {uzers,orez,treez, seedz, monz, treasurez, lootz, housez, bonfires, flowerz}) //monz is the AI monsters
     })
     socket.on("stop", detal => {
         const theUser = uzers.find(user => user._id === detal._id)
