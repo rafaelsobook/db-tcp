@@ -351,7 +351,7 @@ while(hLandBacktree <= 70){
 }
 // heartLand houses
 let hLandHoR = 10
-const houseNoMax = 1.5
+const houseNoMax = 1.8
 while(hLandHoR <= 50){
     let houseDet = {
         meshId: '123',
