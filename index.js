@@ -91,7 +91,7 @@ while(minotaur <= 100){
     monz.push({ 
         monsId: makeRandNum(), 
         place: "swampforest",
-        monsLvl: 2,
+        monsLvl: 5,
         monsName: "minotaur",
         armorName: "",
         monsBreed: "normal",
@@ -100,7 +100,7 @@ while(minotaur <= 100){
         hp: 1000,
         maxHp: 1000,
         atkInterval: 2400, 
-        dmg: 20 + Math.random() * 30,
+        dmg: 50 + Math.random() * 20,
         isChasing: false,
         isAttacking: false,
         isHit: false,
@@ -124,7 +124,7 @@ while(snake <= 30){
             hp: 1000,
             maxHp: 1000,
             atkInterval: 1500, 
-            dmg: 65 + Math.random() * 20,
+            dmg: 70 + Math.random() * 20,
             isChasing: false,
             isAttacking: false,
             isHit: false,
@@ -145,7 +145,7 @@ while(snake <= 30){
         hp: 1200,
         maxHp: 1200,
         atkInterval: 1800, 
-        dmg: 65 + Math.random() * 20,
+        dmg: 75 + Math.random() * 20,
         isChasing: false,
         isAttacking: false,
         isHit: false,
@@ -169,7 +169,7 @@ while(golems <= 40){
         hp: 1000,
         maxHp: 1000,
         atkInterval: 2100, 
-        dmg: 5 + Math.random() * 1,
+        dmg: 105 + Math.random() * 30,
         isChasing: false,
         isAttacking: false,
         isHit: false,
@@ -421,11 +421,11 @@ while(hLandHoL >= -50){
         pos: `${hLandHoL},0`,
         houseNo: Math.floor(Math.random()*houseNoMax)
     })
-    housez.push({...houseDet, 
-        meshId: makeRandNum(),
-        pos: `${hLandHoL},20`,
-        houseNo: Math.floor(Math.random()*houseNoMax)
-    })
+    // housez.push({...houseDet, 
+    //     meshId: makeRandNum(),
+    //     pos: `${hLandHoL},20`,
+    //     houseNo: Math.floor(Math.random()*houseNoMax)
+    // })
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoL},40`,
