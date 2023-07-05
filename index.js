@@ -44,6 +44,26 @@ const io = new Server(server, {
 // });
 const log = console.log
 
+monz.push({ 
+    monsId: makeRandNum(), 
+    place: "swampforest",
+    monsLvl: 10,
+    monsName: "monoloth",
+    armorName: "spikey",
+    monsBreed: "normal",
+    pos: {x: 0, z: -40},
+    spd: 2.7 + Math.random() * .5,
+    hp: 300,
+    maxHp: 300,
+    atkInterval: 2300, 
+    dmg: 20 + Math.random() * 30,
+    isChasing: false,
+    isAttacking: false,
+    isHit: false,
+    targHero: undefined,
+    expGain: 40
+})
+
 let leftGoblins = -45
 while(leftGoblins <= 10){
     monz.push({ 
@@ -130,6 +150,26 @@ while(snake <= 30){
             isHit: false,
             targHero: undefined,
             expGain: 150,
+            effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+        })
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "swampforest",
+            monsLvl: 10,
+            monsName: "monoloth",
+            armorName: "spikey",
+            monsBreed: "normal",
+            pos: {x: snake - Math.random() * 10, z: 40},
+            spd: 2.8 + Math.random() * .5,
+            hp: 1000,
+            maxHp: 1000,
+            atkInterval: 2100, 
+            dmg: 50 + Math.random() * 20,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 99,
             effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
         })
     }
