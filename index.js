@@ -159,7 +159,7 @@ while(snake <= 30){
             monsName: "monoloth",
             armorName: "spikey",
             monsBreed: "normal",
-            pos: {x: snake - Math.random() * 10, z: 40},
+            pos: {x: snake - Math.random() * 20, z: 40},
             spd: 2.8 + Math.random() * .5,
             hp: 1000,
             maxHp: 1000,
