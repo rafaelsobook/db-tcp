@@ -14,11 +14,11 @@ const trsureSec = [
     //     name: "cladarmor", openingBy: undefined, place: "swampforest", plusDef: 40,
     //     durability: 200, cState: 200, plusDmg: 0, price: 20000, qnty: 1, x: -10, z: -45
     // },
-    // {
-    //     isOpening: false,itemType:"treasure",magRes: 10, meshId: makeRandNum(), 
-    //     name: "karparmor", openingBy: undefined, place: "swampforest", plusDef: 40,
-    //     durability: 200, cState: 200, plusDmg: 0, price: 20000, qnty: 1, x: -10, z: -40
-    // },
+    {
+        isOpening: false,itemType:"treasure",magRes: 10, meshId: makeRandNum(), 
+        name: "karparmor", openingBy: undefined, place: "swampforest", plusDef: 40,
+        durability: 200, cState: 200, plusDmg: 0, price: 20000, qnty: 1, x: -10, z: -40
+    },
     // {
     //     isOpening: false,itemType:"treasure",magRes: 10, meshId: makeRandNum(), 
     //     name: "hydra", openingBy: undefined, place: "swampforest", plusDef: 35,
@@ -44,11 +44,11 @@ const trsureSec = [
     //     name: "staffofmare", openingBy: undefined, place: "swampforest", plusDef: 0,
     //     durability: 1000, cState: 1000, plusDmg: 100, price: 20000, qnty: 1, x: -2, z: -50
     // },
-    // {
-    //     isOpening: false,itemType:"treasure",magRes: 10, meshId: makeRandNum(), 
-    //     name: "masfinaBlade", openingBy: undefined, place: "swampforest", plusDef: 0,
-    //     durability: 1000, cState: 1000, plusDmg: 100, price: 20000, qnty: 1, x: -1, z: -47
-    // },
+    {
+        isOpening: false,itemType:"treasure",magRes: 10, meshId: makeRandNum(), 
+        name: "masfinaBlade", openingBy: undefined, place: "swampforest", plusDef: 0,
+        durability: 1000, cState: 1000, plusDmg: 100, price: 20000, qnty: 1, x: -1, z: -47
+    },
     // {
     //     isOpening: false, itemType:"treasure", magRes: 10, meshId: makeRandNum(), 
     //     name: "ancilia", openingBy: undefined, place: "swampforest", plusDef: 20,

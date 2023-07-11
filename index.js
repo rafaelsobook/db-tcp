@@ -227,7 +227,7 @@ monz.push({
     monsName: "golem",
     armorName: "",
     monsBreed: "normal",
-    pos: {z: 89, x: -7},
+    pos: {z: 80, x: -7},
     spd: 2 + Math.random() * .4, 
     hp: 1000,
     maxHp: 1000,
@@ -560,7 +560,31 @@ setInterval(() => {
         })
         io.emit("add-recources", {monz, flowerz})
     }
-
+    const allVipers = monz.map(m => m.monsName === "viper")
+    if(allVipers.length <= 1){
+        log("add more viper")
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "swampforest",
+            monsLvl: 2,
+            monsName: "viper",
+            armorName: "",
+            monsBreed: "normal",
+            pos: {z: 50 + Math.random() * 8, x: 70},
+            spd: 3 + Math.random() * .6, 
+            hp: 1000,
+            maxHp: 1000,
+            atkInterval: 1500, 
+            dmg: 70 + Math.random() * 20,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 150,
+            effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+        })
+        io.emit("add-recources", {monz, flowerz})
+    }
 }, 1000)
 
 io.on("connection", socket => {
