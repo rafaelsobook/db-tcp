@@ -560,20 +560,21 @@ setInterval(() => {
         })
         io.emit("add-recources", {monz, flowerz})
     }
-    const allVipers = monz.map(m => m.monsName === "viper")
-    if(allVipers.length <= 1){
+    let viperQnty = 0
+    monz.forEach(mon => mon.monsName === "viper" && viperQnty++)
+    if(viperQnty <= 1){
         log("add more viper")
         monz.push({ 
             monsId: makeRandNum(), 
             place: "swampforest",
-            monsLvl: 2,
+            monsLvl: 5,
             monsName: "viper",
             armorName: "",
             monsBreed: "normal",
             pos: {z: 50 + Math.random() * 8, x: 70},
             spd: 3 + Math.random() * .6, 
-            hp: 1000,
-            maxHp: 1000,
+            hp: 1200,
+            maxHp: 1200,
             atkInterval: 1500, 
             dmg: 70 + Math.random() * 20,
             isChasing: false,
