@@ -44,26 +44,6 @@ const io = new Server(server, {
 // });
 const log = console.log
 
-monz.push({ 
-    monsId: makeRandNum(), 
-    place: "swampforest",
-    monsLvl: 10,
-    monsName: "monoloth",
-    armorName: "spikey",
-    monsBreed: "normal",
-    pos: {x: 0, z: -40},
-    spd: 2.7 + Math.random() * .5,
-    hp: 300,
-    maxHp: 300,
-    atkInterval: 2300, 
-    dmg: 20 + Math.random() * 30,
-    isChasing: false,
-    isAttacking: false,
-    isHit: false,
-    targHero: undefined,
-    expGain: 40
-})
-
 let leftGoblins = -45
 while(leftGoblins <= 10){
     monz.push({ 
@@ -119,7 +99,7 @@ while(minotaur <= 100){
         spd: 3 + Math.random() * .5, 
         hp: 1000,
         maxHp: 1000,
-        atkInterval: 2400, 
+        atkInterval: 2000, 
         dmg: 50 + Math.random() * 20,
         isChasing: false,
         isAttacking: false,
@@ -229,10 +209,10 @@ monz.push({
     monsBreed: "normal",
     pos: {z: 80, x: -7},
     spd: 2 + Math.random() * .4, 
-    hp: 1000,
-    maxHp: 1000,
+    hp: 4000,
+    maxHp: 4000,
     atkInterval: 2000, 
-    dmg: 100 + Math.random() * 1,
+    dmg: 200 + Math.random() * 100,
     isChasing: false,
     isAttacking: false,
     isHit: false,
@@ -474,12 +454,6 @@ while(hLandHoL >= -50){
     hLandHoL -= 10
 }
 
-setInterval(() => {
-    // log('Uzers length ' + uzers.length)
-    // log('HOUSEZ length ' + housez.length)
-    uzers.forEach(uzr => log(uzr.weapon.name))
-}, 8000)
-
 let worldTime = 1 // 0 - 1 is morning 1-2 is going night
 let isNight = false
 let timeToAddDeduct = .1
@@ -496,73 +470,19 @@ setInterval(() => {
         if(worldTime > .9) isNight = false
     }
     io.emit("time-changed", {worldTime})
-    log(monz.length)
-    let monzInSwamp = 0
-    monz.forEach(mns => {
-        if(mns.place === "swampforest") monzInSwamp++
-    })
-    if(monzInSwamp <= 32){
-        // goblins
-        monz.push({ 
-            monsId: makeRandNum(), 
-            place: "swampforest",
-            monsLvl: 2,
-            monsName: "goblin",
-            armorName: "green",
-            monsBreed: "normal",
-            pos: {x: -70 + Math.random() * 10, z: -50 + Math.random()*60},
-            spd: 2.8 + Math.random() * .6,
-            hp: 450,
-            maxHp: 450,
-            atkInterval: 1900, 
-            dmg: 20 + Math.random() * 30,
-            isChasing: false,
-            isAttacking: false,
-            isHit: false,
-            targHero: undefined,
-            expGain: 40
-        })
-        //minotaur
-        monz.push({ 
-            monsId: makeRandNum(), 
-            place: "swampforest",
-            monsLvl: 2,
-            monsName: "minotaur",
-            armorName: "",
-            monsBreed: "normal",
-            pos: {x: 70 + Math.random() * 10, z: -70 + Math.random() * 120},
-            spd: 3 + Math.random() * .5, 
-            hp: 1000,
-            maxHp: 1000,
-            atkInterval: 2400, 
-            dmg: 20 + Math.random() * 30,
-            isChasing: false,
-            isAttacking: false,
-            isHit: false,
-            targHero: undefined,
-            expGain: 90
-        })
-        // stam flowers 
-        flowerz.push({ 
-            meshId: makeRandNum(), 
-            spawntype: "flowers", 
-            place: "swampforest", 
-            pos: {x: -25 + Math.random()*50,z: 45 + Math.random()*15},
-            name: "stam1",
-        })
-        // herbs
-        flowerz.push({ 
-            meshId: makeRandNum(), 
-            spawntype: "herbs", 
-            place: "swampforest", 
-            pos: {x: 65 + Math.random()*25 ,z: -70+Math.random()*140,},
-            name: "lotusHerb",
-        })
-        io.emit("add-recources", {monz, flowerz})
-    }
+
+    // SWAMP FOREST AREA
     let viperQnty = 0
-    monz.forEach(mon => mon.monsName === "viper" && viperQnty++)
-    if(viperQnty <= 1){
+    let minotaurQnty = 0
+    let gobQnty = 0
+    let monolothQnty = 0
+    monz.forEach(mon => {
+        mon.monsName === "viper" && viperQnty++
+        mon.monsName === "minotaur" && minotaurQnty++
+        mon.monsName === "goblin" && gobQnty++
+        mon.monsName === "monoloth" && monolothQnty++
+    })
+    if(viperQnty <= 2){
         log("add more viper")
         monz.push({ 
             monsId: makeRandNum(), 
@@ -586,7 +506,79 @@ setInterval(() => {
         })
         io.emit("add-recources", {monz, flowerz})
     }
-}, 1000)
+    if(minotaurQnty <= 8){
+        log("add more minotaur")
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "swampforest",
+            monsLvl: 5,
+            monsName: "minotaur",
+            armorName: "",
+            monsBreed: "normal",
+            pos: {x: 70 + Math.random() * 10, z: -65 + Math.random() * 120},
+            spd: 3 + Math.random() * .5, 
+            hp: 1000,
+            maxHp: 1000,
+            atkInterval: 2000, 
+            dmg: 50 + Math.random() * 20,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 90
+        })
+        io.emit("add-recources", {monz, flowerz})
+    }
+    if(gobQnty <= 8){
+        log("add more goblin")
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "swampforest",
+            monsLvl: 2,
+            monsName: "goblin",
+            armorName: "green",
+            monsBreed: "normal",
+            pos: {x: -70 + Math.random() * 10, z: -65 + Math.random() * 120},
+            spd: 2.7 + Math.random() * .5,
+            hp: 300,
+            maxHp: 300,
+            atkInterval: 1900, 
+            dmg: 20 + Math.random() * 30,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 40
+        })
+        io.emit("add-recources", {monz, flowerz})
+    }
+    if(monolothQnty <= 3){
+        log("add more monoloth")
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "swampforest",
+            monsLvl: 10,
+            monsName: "monoloth",
+            armorName: "spikey",
+            monsBreed: "normal",
+            pos: {x: -30 + Math.random() * 60, z: 40 + Math.random()*5},
+            spd: 2.8 + Math.random() * .5,
+            hp: 1000,
+            maxHp: 1000,
+            atkInterval: 2100, 
+            dmg: 50 + Math.random() * 20,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 99,
+            effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+        })
+        io.emit("add-recources", {monz, flowerz})
+    }
+    // END OF SWAMPFOREST AREA
+
+}, 2000)
 
 io.on("connection", socket => {
     theSocket = socket
