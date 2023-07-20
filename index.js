@@ -630,6 +630,19 @@ io.on("connection", socket => {
         uzers = uzers.map(user => user._id === detal._id ? {...user, mode: detal.mode } : user)
     })
     // ACTIONS FIRING !
+    socket.on("willcast", data => {
+        const exist = uzers.find(user=>user._id === data._id)
+        if(!exist) return log("cannot find uzer")
+    
+        io.emit('user-iscasting', data)
+        uzers = uzers.map(user => user._id === data._id ? {...user, mode: "none", dirTarg: data.inFrontPos, _casting: true } : user)
+    })
+    socket.on("cast-skill", data => {
+        const exist = uzers.find(user=>user._id === data._id)
+        if(!exist) return log("cannot find uzer")
+        
+        io.emit('user-cast', data)
+    })
     socket.on("attack", data => {
         const exist = uzers.find(user=>user._id === data._id)
         if(!exist) return log("cannot find uzer")
@@ -755,22 +768,33 @@ io.on("connection", socket => {
         monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isChasing: true, isAttacking: false, targHero: data.targHero} : mon)
         io.emit("monsIsChasing", data)
     })
-
+    socket.on("monster-willthrow", data => {
+        
+        io.emit("mons-thrown", data)
+    })
     socket.on("monsWillStop", data => {
         monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isChasing: false, isAttacking: false, targHero: undefined, pos: data.pos} : mon)
         io.emit("monsStopped", data)
     })
     socket.on("monsWillAttack", data => {
         monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isAttacking: true, isChasing: false, targHero: data.targHero, pos: data.pos} : mon)
-        io.emit("monsAttack", data)
+        const theMonster = monz.find(mons => mons.monsId === data.monsId)
+        io.emit("monsAttack", {detal: data, theMonsterHP: theMonster ? theMonster.hp : 0})
     })
     socket.on("monsterIsHit", data => {
+        
         monz = monz.map(mons => mons.monsId === data.monsId ? {...mons,pos: data.pos, hp: mons.hp -= data.dmgTaken} : mons)
         uzers = uzers.map(theuser => theuser._id === data._id ? {...theuser, x: data.mypos.x, z: data.mypos.z} : theuser)
-        io.emit("monsterGotHit", data)
+        
+        const theMonster = monz.find(mons => mons.monsId === data.monsId)
+        
+        io.emit("monsterGotHit", {detal: data, theMonsterHP: theMonster ? theMonster.hp : 0})
+        
     })
     socket.on("monsDied", data => {
         monz = monz.filter(mons => mons.monsId !== data.monsId)
+        
+        io.emit("check-monsdied", data)
     })
     socket.on('playerIsHit', data => {
         io.emit("playerHitted", data)

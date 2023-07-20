@@ -2,7 +2,7 @@ const trsureSec = [
     {
         isOpening: false,itemType:"treasure",magRes: 10, meshId: 'bonus1', 
         name: "chiefplate", openingBy: undefined, place: "swampforest", plusDef: 5,
-        durability: 100, cState: 100, plusDmg: 0, price: 20000, qnty: 1, x: -30 + Math.random()*60, z: -50 + Math.random()*60
+        durability: 100, cState: 100, plusDmg: 0, price: 300, qnty: 1, x: -30 + Math.random()*60, z: -50 + Math.random()*60
     },
     // {
     //     isOpening: false,itemType:"treasure",magRes: 10, meshId: 'bonus2', 
