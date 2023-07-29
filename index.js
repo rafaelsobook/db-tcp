@@ -10,7 +10,14 @@ const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 let uzers = []
-let lootz = []
+let lootz = [
+    {
+        itemType:"sword",magRes: 0, meshId: makeRandNum(), 
+        name: "drakfoid", place: "swampforest", plusDef: 0,
+        durability: 100, cState: 100, plusDmg: 40, plusMag: 20, price: 7000,
+        x: -.5, z: -30
+    }
+]
 let monz = []
 let seedz = []
 let flowerz = []
@@ -31,7 +38,7 @@ app.get("/", (req, res) => {
 })
 const io = new Server(server, {
     cors: { 
-        origin:['https://rafael29.itch.io/dungeon-born','https://v6p9d9t4.ssl.hwcdn.net','http://localhost:8080', 'https://dungeonborn.vercel.app'],
+        origin:["https://dungeon-born.com", 'https://rafael29.itch.io/dungeon-born','https://v6p9d9t4.ssl.hwcdn.net','http://localhost:8080', 'https://dungeonborn.vercel.app'],
         methods: ["GET", "POST"]
     }
 })
@@ -43,6 +50,32 @@ const io = new Server(server, {
 //     }
 // });
 const log = console.log
+
+let swmpHounds = -15
+while(swmpHounds <= 0){
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "swampforest",
+        monsLvl: 2,
+        monsName: "hellhound",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: -50 + Math.random() * 10, z: swmpHounds + Math.random() * 2},
+        spd: 5 + Math.random() * .5,
+        hp: 100,
+        maxHp: 100,
+        atkInterval: 1200, 
+        dmg: 1 + Math.random() * 30,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 1040,
+        effects: { effectType: "absorb", absorbType: "weapon", defaultAbs: 20, chance: 9, dura: 100, plusDmg: 10, dmgPm: 0 }
+    })
+
+    swmpHounds += 4
+}
 
 let leftGoblins = -45
 while(leftGoblins <= 10){
@@ -643,6 +676,15 @@ io.on("connection", socket => {
         
         io.emit('user-cast', data)
     })
+    socket.on("will-drop-sword", data => {
+        io.emit('w-d-s', data)
+    })
+    socket.on("sword-isdroped", data => {
+        log('before lootz ', lootz)
+        lootz.push(data.swordData)
+        io.emit("s-i", {data,lootz})
+        log('after lootz ', lootz)
+    })
     socket.on("attack", data => {
         const exist = uzers.find(user=>user._id === data._id)
         if(!exist) return log("cannot find uzer")
@@ -690,7 +732,7 @@ io.on("connection", socket => {
     socket.on("sword", data => {
         log(data)
         lootz.push(data)
-        io.emit("dropsword", data)
+        io.emit("add-recources", {monz, flowerz, lootz})
     })
     socket.on("will-open-treasure", data => {
         io.emit('treasure-isOpening', data)
@@ -797,6 +839,7 @@ io.on("connection", socket => {
         io.emit("check-monsdied", data)
     })
     socket.on('playerIsHit', data => {
+        uzers = uzers.map(user => user._id === data._id ? {...user, _minning: false, _training: false} : user)
         io.emit("playerHitted", data)
     })
     socket.on('playerIsHitByHero', detal => {
@@ -870,6 +913,7 @@ io.on("connection", socket => {
     })
     socket.on("pickSword", data => {
         lootz = lootz.filter(loot => loot.meshId !== data.meshId)
+        log("lootz been deducted");
 
         io.emit("swordIsPicked", data)
     })
