@@ -13,9 +13,9 @@ let uzers = []
 let lootz = [
     {
         itemType:"sword",magRes: 0, meshId: makeRandNum(), 
-        name: "drakfoid", place: "swampforest", plusDef: 0,
-        durability: 100, cState: 100, plusDmg: 40, plusMag: 20, price: 7000,
-        x: -.5, z: -30
+        name: "majesty", place: "heartland", plusDef: 0,
+        durability: 4000, cState: 4000, plusDmg: 100000, plusMag: 20, price: 9000000,
+        x: -53, z: 21
     }
 ]
 let monz = []
