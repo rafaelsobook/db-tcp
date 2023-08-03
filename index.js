@@ -73,10 +73,73 @@ while(swmpHounds <= 0){
         expGain: 1040,
         effects: { effectType: "absorb", absorbType: "weapon", defaultAbs: 20, chance: 9, dura: 100, plusDmg: 10, dmgPm: 0 }
     })
-
     swmpHounds += 4
 }
-
+let heartlandRabits = 0
+while(heartlandRabits <= 5){
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "heartland",
+        monsLvl: 1,
+        monsName: "rabbit",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: 67 + Math.random() * 3, z: -65 + Math.random()*120},
+        spd: 2 + Math.random() * .5,
+        hp: 80,
+        maxHp: 80,
+        atkInterval: 1800, 
+        dmg: 10 + Math.random() * 10,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 10
+    })
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "heartland",
+        monsLvl: 1,
+        monsName: "rabbit",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: -68 + Math.random() * 3, z: -65 + Math.random()*120},
+        spd: 2 + Math.random() * .5,
+        hp: 80,
+        maxHp: 80,
+        atkInterval: 1800, 
+        dmg: 10 + Math.random() * 10,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 10
+    })
+    heartlandRabits += 1
+}
+let swmpRabbits = -0
+while(swmpRabbits <= 20){
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "swampforest",
+        monsLvl: 1,
+        monsName: "rabbit",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: -50 + Math.random() * 100, z: -70 + Math.random()*5},
+        spd: 2 + Math.random() * .5,
+        hp: 80,
+        maxHp: 80,
+        atkInterval: 1800, 
+        dmg: 10 + Math.random() * 10,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 10
+    })
+    swmpRabbits += 1
+}
 let leftGoblins = -45
 while(leftGoblins <= 10){
     monz.push({ 
