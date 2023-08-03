@@ -14,7 +14,7 @@ let lootz = [
     {
         itemType:"sword",magRes: 0, meshId: makeRandNum(), 
         name: "majesty", place: "heartland", plusDef: 0,
-        durability: 4000, cState: 4000, plusDmg: 100000, plusMag: 20, price: 9000000,
+        durability: 100000000, cState: 100000000, plusDmg: 100000, plusMag: 20, price: 9000000,
         x: -53, z: 21
     }
 ]
