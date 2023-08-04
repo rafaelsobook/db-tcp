@@ -13,8 +13,8 @@ let uzers = []
 let lootz = [
     {
         itemType:"sword",magRes: 0, meshId: makeRandNum(), 
-        name: "majesty", place: "heartland", plusDef: 0,
-        durability: 100000000, cState: 100000000, plusDmg: 100000, plusMag: 20, price: 9000000,
+        name: "oakblade", place: "heartland", plusDef: 0,
+        durability: 3000, cState: 3000, plusDmg: 35, plusMag: 20, price: 1000,
         x: -53, z: 21
     }
 ]
@@ -118,7 +118,7 @@ while(heartlandRabits <= 5){
     heartlandRabits += 1
 }
 let swmpRabbits = -0
-while(swmpRabbits <= 20){
+while(swmpRabbits <= 15){
     monz.push({ 
         monsId: makeRandNum(), 
         place: "swampforest",
@@ -126,7 +126,7 @@ while(swmpRabbits <= 20){
         monsName: "rabbit",
         armorName: "green",
         monsBreed: "normal",
-        pos: {x: -50 + Math.random() * 100, z: -70 + Math.random()*5},
+        pos: {x: -50 + Math.random() * 5, z: -70 + Math.random()*130},
         spd: 2 + Math.random() * .5,
         hp: 80,
         maxHp: 80,
