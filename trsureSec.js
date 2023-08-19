@@ -9,6 +9,11 @@ const trsureSec = [
         name: "karparmor", openingBy: undefined, place: "heartland", plusDef: 50,
         durability: 5000, cState: 5000, plusDmg: 0, price: 3000, qnty: 1, x: -51, z: 23
     },
+    {
+        isOpening: false,itemType:"treasure", meshId: 'bonus2134212', 
+        name: "forbiddenScroll", openingBy: undefined, place: "heartland",
+        price: 36000, qnty: 1, x: 57, z: 39
+    },
     // {
     //     isOpening: false,itemType:"treasure",magRes: 10, meshId: 'bonus2', 
     //     name: "karba", openingBy: undefined, place: "swampforest", plusDef: 40,

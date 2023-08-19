@@ -32,6 +32,7 @@ let treasurez = trsureSec;
 
 let housez = []
 let bonfires = [{meshId: 'bon12bas', isCooking: false, pos: {x: -14, z: -21}, place: 'swampforest'}]
+let bedleaves = []
 
 app.get("/", (req, res) => {
     res.send(uzers).status(200)
@@ -496,13 +497,15 @@ while(hLandHoR <= 50){
     //     pos: `${hLandHoR},0`,
     //     houseNo: Math.floor(Math.random()*1.4)
     // })
-    housez.push({...houseDet, 
-        meshId: makeRandNum(),
-        pos: `${hLandHoR},20`,
-        houseNo: Math.floor(Math.random()*houseNoMax),
-        spawntype: "apartment",
-        occupiedBy: "none"
-    })
+    if(hLandHoR <= 21){
+        housez.push({...houseDet, 
+            meshId: makeRandNum(),
+            pos: `${hLandHoR},20`,
+            houseNo: Math.floor(Math.random()*houseNoMax),
+            spawntype: "apartment",
+            occupiedBy: "none"
+        })
+    }
     housez.push({...houseDet, 
         meshId: makeRandNum(),
         pos: `${hLandHoR},40`,
@@ -557,26 +560,29 @@ let theSocket = undefined
 setInterval(() => {
     if(theSocket === undefined) return
     
-    if(!isNight){
-        worldTime-=.005
-        if(worldTime < .2) isNight = true
-    }
-    if(isNight){
-        worldTime+=.005
-        if(worldTime > .9) isNight = false
-    }
-    io.emit("time-changed", {worldTime})
+    // if(!isNight){
+    //     worldTime-=.005
+    //     if(worldTime < .2) isNight = true
+    // }
+    // if(isNight){
+    //     worldTime+=.005
+    //     if(worldTime > .9) isNight = false
+    // }
+    // io.emit("time-changed", {worldTime})
 
+    let pass = false
     // SWAMP FOREST AREA
     let viperQnty = 0
     let minotaurQnty = 0
     let gobQnty = 0
     let monolothQnty = 0
+    let rabbitQnty = 0
     monz.forEach(mon => {
         mon.monsName === "viper" && viperQnty++
         mon.monsName === "minotaur" && minotaurQnty++
         mon.monsName === "goblin" && gobQnty++
         mon.monsName === "monoloth" && monolothQnty++
+        mon.monsName === "rabbit" && rabbitQnty ++
     })
     if(viperQnty <= 2){
         log("add more viper")
@@ -600,7 +606,7 @@ setInterval(() => {
             expGain: 150,
             effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
         })
-        io.emit("add-recources", {monz, flowerz})
+       pass = true
     }
     if(minotaurQnty <= 8){
         log("add more minotaur")
@@ -623,9 +629,9 @@ setInterval(() => {
             targHero: undefined,
             expGain: 90
         })
-        io.emit("add-recources", {monz, flowerz})
+       pass = true
     }
-    if(gobQnty <= 8){
+    if(gobQnty <= 10){
         log("add more goblin")
         monz.push({ 
             monsId: makeRandNum(), 
@@ -646,7 +652,7 @@ setInterval(() => {
             targHero: undefined,
             expGain: 40
         })
-        io.emit("add-recources", {monz, flowerz})
+        pass = true
     }
     if(monolothQnty <= 3){
         log("add more monoloth")
@@ -659,8 +665,8 @@ setInterval(() => {
             monsBreed: "normal",
             pos: {x: -30 + Math.random() * 60, z: 40 + Math.random()*5},
             spd: 2.8 + Math.random() * .5,
-            hp: 1000,
-            maxHp: 1000,
+            hp: 1500 + Math.random()*500,
+            maxHp: 1500 + Math.random()*500,
             atkInterval: 2100, 
             dmg: 50 + Math.random() * 20,
             isChasing: false,
@@ -670,10 +676,51 @@ setInterval(() => {
             expGain: 99,
             effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
         })
-        io.emit("add-recources", {monz, flowerz})
+        pass = true
+    }
+    if(rabbitQnty <= 5){
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "heartland",
+            monsLvl: 1,
+            monsName: "rabbit",
+            armorName: "green",
+            monsBreed: "normal",
+            pos: {x: 67 + Math.random() * 3, z: -65 + Math.random()*120},
+            spd: 2 + Math.random() * .5,
+            hp: 80,
+            maxHp: 80,
+            atkInterval: 1800, 
+            dmg: 10 + Math.random() * 10,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 10
+        })
+        monz.push({ 
+            monsId: makeRandNum(), 
+            place: "heartland",
+            monsLvl: 1,
+            monsName: "rabbit",
+            armorName: "green",
+            monsBreed: "normal",
+            pos: {x: -68 + Math.random() * 3, z: -65 + Math.random()*120},
+            spd: 2 + Math.random() * .5,
+            hp: 80,
+            maxHp: 80,
+            atkInterval: 1800, 
+            dmg: 10 + Math.random() * 10,
+            isChasing: false,
+            isAttacking: false,
+            isHit: false,
+            targHero: undefined,
+            expGain: 10
+        })
+        pass = true
     }
     // END OF SWAMPFOREST AREA
-
+    if(pass) io.emit("add-recources", {monz, flowerz})
 }, 2000)
 
 io.on("connection", socket => {
@@ -687,7 +734,7 @@ io.on("connection", socket => {
         }else{
             uzers.push({...data, socketId: socket.id})
             log(`${data.name} has joined`)
-            io.emit("userJoined", {_id: data._id, place: data.currentPlace,uzers,orez,treez, seedz, monz, treasurez, lootz, housez, bonfires, flowerz}) //monz is the AI monsters    
+            io.emit("userJoined", {_id: data._id, place: data.currentPlace,uzers,orez,treez, seedz, monz, treasurez, lootz, housez, bonfires,bedleaves, flowerz}) //monz is the AI monsters    
         }
     })
     socket.on("stop", detal => {
@@ -848,6 +895,11 @@ io.on("connection", socket => {
         bonfires.push({...data, isCooking: false})
 
         io.emit('bonfire-crafted', bonfires)
+    })
+    socket.on("plant-bedleave", data => {
+        bedleaves.push(data)
+
+        io.emit('bedleave-crafted', bedleaves)
     })
     // spawncheats by admin
     socket.on("sft", data => {
