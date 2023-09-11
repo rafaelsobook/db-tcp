@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+let worldMessage = []
 let uzers = []
 let lootz = [
     {
@@ -28,8 +29,10 @@ let orez = [
 // const {swampTreez} = require("./swampforest")
 let treez = [{ meshId: '4w2', spawntype: "trees", place: "swampforest", pos: "-50,2", hits: 2}]
 const trsureSec = require("./trsureSec.js")
-let treasurez = trsureSec;
+const hiddenLandmons = require("./monsterToSpawn/hiddenLandmons.js")
 
+
+let treasurez = trsureSec;
 let housez = []
 let bonfires = [{meshId: 'bon12bas', isCooking: false, pos: {x: -14, z: -21}, place: 'swampforest'}]
 let bedleaves = []
@@ -229,6 +232,7 @@ while(snake <= 30){
             expGain: 150,
             effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
         })
+        //monoloth bee
         monz.push({ 
             monsId: makeRandNum(), 
             place: "swampforest",
@@ -577,13 +581,22 @@ setInterval(() => {
     let gobQnty = 0
     let monolothQnty = 0
     let rabbitQnty = 0
+
+    let hiddenLandMonsQnty = 0
     monz.forEach(mon => {
         mon.monsName === "viper" && viperQnty++
         mon.monsName === "minotaur" && minotaurQnty++
         mon.monsName === "goblin" && gobQnty++
         mon.monsName === "monoloth" && monolothQnty++
         mon.monsName === "rabbit" && rabbitQnty ++
+
+        if(mon.place === "hiddenland") hiddenLandMonsQnty++
     })
+    
+    if(hiddenLandMonsQnty <= 30){
+        const monsterToSpawn = hiddenLandmons[Math.floor(Math.random() * hiddenLandmons.length)];
+        monz.push(monsterToSpawn);
+    }
     if(viperQnty <= 2){
         log("add more viper")
         monz.push({ 
@@ -1042,7 +1055,8 @@ io.on("connection", socket => {
     })
     // WORLD CHAT
     socket.on('sendto-world', data => {
-        io.emit('sentto-world', data)
+        worldMessage.push(data)
+        io.emit('sentto-world', worldMessage)
     })
     // DISCONNECTIONS
     socket.on('dispose', data => {
