@@ -30,6 +30,7 @@ let orez = [
 let treez = [{ meshId: '4w2', spawntype: "trees", place: "swampforest", pos: "-50,2", hits: 2}]
 const trsureSec = require("./trsureSec.js")
 const hiddenLandmons = require("./monsterToSpawn/hiddenLandmons.js")
+const swampLandmons = require("./monsterToSpawn/swampLandmons.js")
 
 
 let treasurez = trsureSec;
@@ -212,26 +213,26 @@ while(minotaur <= 100){
 let snake = -30
 while(snake <= 30){
     if(snake > 5){
-        monz.push({ 
-            monsId: makeRandNum(), 
-            place: "swampforest",
-            monsLvl: 2,
-            monsName: "viper",
-            armorName: "",
-            monsBreed: "normal",
-            pos: {z: 50 + Math.random() * 8, x: snake},
-            spd: 3 + Math.random() * .6, 
-            hp: 1000,
-            maxHp: 1000,
-            atkInterval: 1500, 
-            dmg: 70 + Math.random() * 20,
-            isChasing: false,
-            isAttacking: false,
-            isHit: false,
-            targHero: undefined,
-            expGain: 150,
-            effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
-        })
+        // monz.push({ 
+        //     monsId: makeRandNum(), 
+        //     place: "swampforest",
+        //     monsLvl: 2,
+        //     monsName: "viper",
+        //     armorName: "",
+        //     monsBreed: "normal",
+        //     pos: {z: 50 + Math.random() * 8, x: snake},
+        //     spd: 3 + Math.random() * .6, 
+        //     hp: 1000,
+        //     maxHp: 1000,
+        //     atkInterval: 1500, 
+        //     dmg: 70 + Math.random() * 20,
+        //     isChasing: false,
+        //     isAttacking: false,
+        //     isHit: false,
+        //     targHero: undefined,
+        //     expGain: 150,
+        //     effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+        // })
         //monoloth bee
         monz.push({ 
             monsId: makeRandNum(), 
@@ -575,163 +576,158 @@ setInterval(() => {
     // io.emit("time-changed", {worldTime})
 
     let pass = false
-    // SWAMP FOREST AREA
-    let viperQnty = 0
-    let minotaurQnty = 0
-    let gobQnty = 0
-    let monolothQnty = 0
-    let rabbitQnty = 0
-
     let hiddenLandMonsQnty = 0
+    let swampLandMonsQnty = 0
     monz.forEach(mon => {
-        mon.monsName === "viper" && viperQnty++
-        mon.monsName === "minotaur" && minotaurQnty++
-        mon.monsName === "goblin" && gobQnty++
-        mon.monsName === "monoloth" && monolothQnty++
-        mon.monsName === "rabbit" && rabbitQnty ++
-
         if(mon.place === "hiddenland") hiddenLandMonsQnty++
+        if(mon.place === "swampforest") swampLandMonsQnty++
     })
     
     if(hiddenLandMonsQnty <= 30){
         const monsterToSpawn = hiddenLandmons[Math.floor(Math.random() * hiddenLandmons.length)];
         monz.push(monsterToSpawn);
-    }
-    if(viperQnty <= 2){
-        log("add more viper")
-        monz.push({ 
-            monsId: makeRandNum(), 
-            place: "swampforest",
-            monsLvl: 5,
-            monsName: "viper",
-            armorName: "",
-            monsBreed: "normal",
-            pos: {z: 50 + Math.random() * 8, x: 70},
-            spd: 3 + Math.random() * .6, 
-            hp: 1200,
-            maxHp: 1200,
-            atkInterval: 1500, 
-            dmg: 70 + Math.random() * 20,
-            isChasing: false,
-            isAttacking: false,
-            isHit: false,
-            targHero: undefined,
-            expGain: 150,
-            effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
-        })
-       pass = true
-    }
-    if(minotaurQnty <= 8){
-        log("add more minotaur")
-        monz.push({ 
-            monsId: makeRandNum(), 
-            place: "swampforest",
-            monsLvl: 5,
-            monsName: "minotaur",
-            armorName: "",
-            monsBreed: "normal",
-            pos: {x: 70 + Math.random() * 10, z: -65 + Math.random() * 120},
-            spd: 3 + Math.random() * .5, 
-            hp: 1000,
-            maxHp: 1000,
-            atkInterval: 2000, 
-            dmg: 50 + Math.random() * 20,
-            isChasing: false,
-            isAttacking: false,
-            isHit: false,
-            targHero: undefined,
-            expGain: 90
-        })
-       pass = true
-    }
-    if(gobQnty <= 10){
-        log("add more goblin")
-        monz.push({ 
-            monsId: makeRandNum(), 
-            place: "swampforest",
-            monsLvl: 2,
-            monsName: "goblin",
-            armorName: "green",
-            monsBreed: "normal",
-            pos: {x: -70 + Math.random() * 10, z: -65 + Math.random() * 120},
-            spd: 2.7 + Math.random() * .5,
-            hp: 300,
-            maxHp: 300,
-            atkInterval: 1900, 
-            dmg: 20 + Math.random() * 30,
-            isChasing: false,
-            isAttacking: false,
-            isHit: false,
-            targHero: undefined,
-            expGain: 40
-        })
         pass = true
     }
-    if(monolothQnty <= 3){
-        log("add more monoloth")
-        monz.push({ 
-            monsId: makeRandNum(), 
-            place: "swampforest",
-            monsLvl: 10,
-            monsName: "monoloth",
-            armorName: "spikey",
-            monsBreed: "normal",
-            pos: {x: -30 + Math.random() * 60, z: 40 + Math.random()*5},
-            spd: 2.8 + Math.random() * .5,
-            hp: 1500 + Math.random()*500,
-            maxHp: 1500 + Math.random()*500,
-            atkInterval: 2100, 
-            dmg: 50 + Math.random() * 20,
-            isChasing: false,
-            isAttacking: false,
-            isHit: false,
-            targHero: undefined,
-            expGain: 99,
-            effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
-        })
+    if(swampLandMonsQnty <= 30){
+        const monsterToSpawn = swampLandmons[Math.floor(Math.random() * swampLandmons.length)];
+        monz.push(monsterToSpawn);
         pass = true
     }
-    if(rabbitQnty <= 5){
-        monz.push({ 
-            monsId: makeRandNum(), 
-            place: "heartland",
-            monsLvl: 1,
-            monsName: "rabbit",
-            armorName: "green",
-            monsBreed: "normal",
-            pos: {x: 67 + Math.random() * 3, z: -65 + Math.random()*120},
-            spd: 2 + Math.random() * .5,
-            hp: 80,
-            maxHp: 80,
-            atkInterval: 1800, 
-            dmg: 10 + Math.random() * 10,
-            isChasing: false,
-            isAttacking: false,
-            isHit: false,
-            targHero: undefined,
-            expGain: 10
-        })
-        monz.push({ 
-            monsId: makeRandNum(), 
-            place: "heartland",
-            monsLvl: 1,
-            monsName: "rabbit",
-            armorName: "green",
-            monsBreed: "normal",
-            pos: {x: -68 + Math.random() * 3, z: -65 + Math.random()*120},
-            spd: 2 + Math.random() * .5,
-            hp: 80,
-            maxHp: 80,
-            atkInterval: 1800, 
-            dmg: 10 + Math.random() * 10,
-            isChasing: false,
-            isAttacking: false,
-            isHit: false,
-            targHero: undefined,
-            expGain: 10
-        })
-        pass = true
-    }
+    // if(viperQnty <= 2){
+    //     log("add more viper")
+    //     monz.push({ 
+    //         monsId: makeRandNum(), 
+    //         place: "swampforest",
+    //         monsLvl: 5,
+    //         monsName: "viper",
+    //         armorName: "",
+    //         monsBreed: "normal",
+    //         pos: {z: 50 + Math.random() * 8, x: 70},
+    //         spd: 3 + Math.random() * .6, 
+    //         hp: 1200,
+    //         maxHp: 1200,
+    //         atkInterval: 1500, 
+    //         dmg: 70 + Math.random() * 20,
+    //         isChasing: false,
+    //         isAttacking: false,
+    //         isHit: false,
+    //         targHero: undefined,
+    //         expGain: 150,
+    //         effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+    //     })
+    //    pass = true
+    // }
+    // if(minotaurQnty <= 8){
+    //     log("add more minotaur")
+    //     monz.push({ 
+    //         monsId: makeRandNum(), 
+    //         place: "swampforest",
+    //         monsLvl: 5,
+    //         monsName: "minotaur",
+    //         armorName: "",
+    //         monsBreed: "normal",
+    //         pos: {x: 70 + Math.random() * 10, z: -65 + Math.random() * 120},
+    //         spd: 3 + Math.random() * .5, 
+    //         hp: 1000,
+    //         maxHp: 1000,
+    //         atkInterval: 2000, 
+    //         dmg: 50 + Math.random() * 20,
+    //         isChasing: false,
+    //         isAttacking: false,
+    //         isHit: false,
+    //         targHero: undefined,
+    //         expGain: 90
+    //     })
+    //    pass = true
+    // }
+    // if(gobQnty <= 10){
+    //     log("add more goblin")
+    //     monz.push({ 
+    //         monsId: makeRandNum(), 
+    //         place: "swampforest",
+    //         monsLvl: 2,
+    //         monsName: "goblin",
+    //         armorName: "green",
+    //         monsBreed: "normal",
+    //         pos: {x: -70 + Math.random() * 10, z: -65 + Math.random() * 120},
+    //         spd: 2.7 + Math.random() * .5,
+    //         hp: 300,
+    //         maxHp: 300,
+    //         atkInterval: 1900, 
+    //         dmg: 20 + Math.random() * 30,
+    //         isChasing: false,
+    //         isAttacking: false,
+    //         isHit: false,
+    //         targHero: undefined,
+    //         expGain: 40
+    //     })
+    //     pass = true
+    // }
+    // if(monolothQnty <= 3){
+    //     log("add more monoloth")
+    //     monz.push({ 
+    //         monsId: makeRandNum(), 
+    //         place: "swampforest",
+    //         monsLvl: 10,
+    //         monsName: "monoloth",
+    //         armorName: "spikey",
+    //         monsBreed: "normal",
+    //         pos: {x: -30 + Math.random() * 60, z: 40 + Math.random()*5},
+    //         spd: 2.8 + Math.random() * .5,
+    //         hp: 1500 + Math.random()*500,
+    //         maxHp: 1500 + Math.random()*500,
+    //         atkInterval: 2100, 
+    //         dmg: 50 + Math.random() * 20,
+    //         isChasing: false,
+    //         isAttacking: false,
+    //         isHit: false,
+    //         targHero: undefined,
+    //         expGain: 99,
+    //         effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+    //     })
+    //     pass = true
+    // }
+    // if(rabbitQnty <= 5){
+    //     monz.push({ 
+    //         monsId: makeRandNum(), 
+    //         place: "heartland",
+    //         monsLvl: 1,
+    //         monsName: "rabbit",
+    //         armorName: "green",
+    //         monsBreed: "normal",
+    //         pos: {x: 67 + Math.random() * 3, z: -65 + Math.random()*120},
+    //         spd: 2 + Math.random() * .5,
+    //         hp: 80,
+    //         maxHp: 80,
+    //         atkInterval: 1800, 
+    //         dmg: 10 + Math.random() * 10,
+    //         isChasing: false,
+    //         isAttacking: false,
+    //         isHit: false,
+    //         targHero: undefined,
+    //         expGain: 10
+    //     })
+    //     monz.push({ 
+    //         monsId: makeRandNum(), 
+    //         place: "heartland",
+    //         monsLvl: 1,
+    //         monsName: "rabbit",
+    //         armorName: "green",
+    //         monsBreed: "normal",
+    //         pos: {x: -68 + Math.random() * 3, z: -65 + Math.random()*120},
+    //         spd: 2 + Math.random() * .5,
+    //         hp: 80,
+    //         maxHp: 80,
+    //         atkInterval: 1800, 
+    //         dmg: 10 + Math.random() * 10,
+    //         isChasing: false,
+    //         isAttacking: false,
+    //         isHit: false,
+    //         targHero: undefined,
+    //         expGain: 10
+    //     })
+    //     pass = true
+    // }
     // END OF SWAMPFOREST AREA
     if(pass) io.emit("add-recources", {monz, flowerz})
 }, 2000)
