@@ -31,6 +31,8 @@ let treez = [{ meshId: '4w2', spawntype: "trees", place: "swampforest", pos: "-5
 const trsureSec = require("./trsureSec.js")
 const hiddenLandmons = require("./monsterToSpawn/hiddenLandmons.js")
 const swampLandmons = require("./monsterToSpawn/swampLandmons.js")
+const heartLandmons = require("./monsterToSpawn/heartLandmons.js");
+const allMonsterRecord = require("./monsterToSpawn/allmonstersRecord.js");
 
 
 let treasurez = trsureSec;
@@ -63,10 +65,12 @@ while(swmpHounds <= 0){
         place: "hiddenland",
         monsLvl: 2,
         monsName: "hellhound",
+        dn: "hellhound",
         armorName: "green",
         monsBreed: "normal",
         pos: {x: -50 + Math.random() * 10, z: -50 + Math.random() * 100},
-        spd: 5 + Math.random() * .5,
+        posOrigin: {x: -50 + Math.random() * 10, z: -50 + Math.random() * 100},
+        spd: 50 + Math.random() * .5,
         hp: 600,
         maxHp: 600,
         atkInterval: 1400, 
@@ -76,9 +80,66 @@ while(swmpHounds <= 0){
         isHit: false,
         targHero: undefined,
         expGain: 1040,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
         effects: { effectType: "absorb", absorbType: "weapon", defaultAbs: 20, chance: 9, dura: 100, plusDmg: 10, dmgPm: 0 }
     })
     swmpHounds += 4
+}
+let mistMonsters = -15
+while(mistMonsters <= 100){
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "endlessmist",
+        monsLvl: 2,
+        monsName: "hellhound",
+        dn: "hellhound",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: -150 + Math.random() * 160, z: -150 + Math.random() * 100},
+        posOrigin: {x: -150 + Math.random() * 160, z: -150 + Math.random() * 100},
+        spd: 5 + Math.random() * .5,
+        hp: 1000,
+        maxHp: 1000,
+        atkInterval: 1400, 
+        dmg: 50 + Math.random() * 30,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 1040,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
+        effects: { effectType: "absorb", absorbType: "weapon", defaultAbs: 20, chance: 9, dura: 100, plusDmg: 10, dmgPm: 0 }
+    })
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "endlessmist",
+        monsLvl: 10,
+        monsName: "monoloth",
+        dn: "monoloth",
+        armorName: "spikey",
+        monsBreed: "normal",
+        pos: {x: -150 + Math.random() * 160, z: -150 + Math.random() * 100},
+        posOrigin: {x: -150 + Math.random() * 160, z: -150 + Math.random() * 100},
+        spd: 2.8 + Math.random() * .5,
+        hp: 1000,
+        maxHp: 1000,
+        atkInterval: 2100, 
+        dmg: 50 + Math.random() * 20,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 99,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
+        effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+    })
+    mistMonsters += 4
 }
 let heartlandRabits = 0
 while(heartlandRabits <= 5){
@@ -87,9 +148,11 @@ while(heartlandRabits <= 5){
         place: "heartland",
         monsLvl: 1,
         monsName: "rabbit",
+        dn: "rabbit",
         armorName: "green",
         monsBreed: "normal",
         pos: {x: 67 + Math.random() * 3, z: -65 + Math.random()*120},
+        posOrigin: {x: 67 + Math.random() * 3, z: -65 + Math.random()*120},
         spd: 2 + Math.random() * .5,
         hp: 80,
         maxHp: 80,
@@ -99,16 +162,21 @@ while(heartlandRabits <= 5){
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 10
+        expGain: 10,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
     })
     monz.push({ 
         monsId: makeRandNum(), 
         place: "heartland",
         monsLvl: 1,
         monsName: "rabbit",
+        dn: "rabbit",
         armorName: "green",
         monsBreed: "normal",
         pos: {x: -68 + Math.random() * 3, z: -65 + Math.random()*120},
+        posOrigin: {x: -68 + Math.random() * 3, z: -65 + Math.random()*120},
         spd: 2 + Math.random() * .5,
         hp: 80,
         maxHp: 80,
@@ -118,7 +186,10 @@ while(heartlandRabits <= 5){
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 10
+        expGain: 10,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
     })
     heartlandRabits += 1
 }
@@ -129,9 +200,11 @@ while(swmpRabbits <= 15){
         place: "swampforest",
         monsLvl: 1,
         monsName: "rabbit",
+        dn: "rabbit",
         armorName: "green",
         monsBreed: "normal",
         pos: {x: -50 + Math.random() * 5, z: -70 + Math.random()*130},
+        posOrigin: {x: -50 + Math.random() * 5, z: -70 + Math.random()*130},
         spd: 2 + Math.random() * .5,
         hp: 80,
         maxHp: 80,
@@ -141,7 +214,10 @@ while(swmpRabbits <= 15){
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 10
+        expGain: 10,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
     })
     swmpRabbits += 1
 }
@@ -152,9 +228,11 @@ while(leftGoblins <= 10){
         place: "swampforest",
         monsLvl: 2,
         monsName: "goblin",
+        dn: "goblin",
         armorName: "green",
         monsBreed: "normal",
         pos: {x: -70 + Math.random() * 10, z: leftGoblins + Math.random() * 2},
+        posOrigin: {x: -70 + Math.random() * 10, z: leftGoblins + Math.random() * 2},
         spd: 2.7 + Math.random() * .5,
         hp: 300,
         maxHp: 300,
@@ -164,16 +242,21 @@ while(leftGoblins <= 10){
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 40
+        expGain: 40,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
     })
     monz.push({ 
         monsId: makeRandNum(), 
         place: "hiddenland",
         monsLvl: 5,
         monsName: "goblin",
+        dn: "goblin",
         armorName: "green",
         monsBreed: "normal",
         pos: {x: -70 + Math.random() * 140, z: -70 + Math.random() * 140},
+        posOrigin: {x: -70 + Math.random() * 140, z: -70 + Math.random() * 140},
         spd: 2.7 + Math.random() * .5,
         hp: 400,
         maxHp: 300,
@@ -183,7 +266,10 @@ while(leftGoblins <= 10){
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 120
+        expGain: 120,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
     })
     leftGoblins += 4
 }
@@ -194,9 +280,11 @@ while(minotaur <= 100){
         place: "swampforest",
         monsLvl: 5,
         monsName: "minotaur",
+        dn: "minotaur",
         armorName: "",
         monsBreed: "normal",
         pos: {x: 70 + Math.random() * 10, z: minotaur + Math.random() * 2},
+        posOrigin: {x: 70 + Math.random() * 10, z: minotaur + Math.random() * 2},
         spd: 3 + Math.random() * .5, 
         hp: 1000,
         maxHp: 1000,
@@ -206,7 +294,10 @@ while(minotaur <= 100){
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 90
+        expGain: 90,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
     })
     minotaur += 24
 }
@@ -239,9 +330,11 @@ while(snake <= 30){
             place: "swampforest",
             monsLvl: 10,
             monsName: "monoloth",
+            dn: "monoloth",
             armorName: "spikey",
             monsBreed: "normal",
             pos: {x: snake - Math.random() * 20, z: 40},
+            posOrigin: {x: snake - Math.random() * 20, z: 40},
             spd: 2.8 + Math.random() * .5,
             hp: 1000,
             maxHp: 1000,
@@ -252,6 +345,9 @@ while(snake <= 30){
             isHit: false,
             targHero: undefined,
             expGain: 99,
+            isAMinnion: false,
+            minnionOwner: undefined,
+            isSummoned: false,
             effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
         })
     }
@@ -260,9 +356,11 @@ while(snake <= 30){
         place: "hiddenland",
         monsLvl: 2,
         monsName: "viper",
+        dn: "viper",
         armorName: "",
         monsBreed: "normal",
         pos: {z: -50 + Math.random() * 50, x: -50 + Math.random() * 50},
+        posOrigin: {z: -50 + Math.random() * 50, x: -50 + Math.random() * 50},
         spd: 3 + Math.random() * .6, 
         hp: 1200,
         maxHp: 1200,
@@ -273,6 +371,9 @@ while(snake <= 30){
         isHit: false,
         targHero: undefined,
         expGain: 150,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
         effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     })
     snake += 10
@@ -284,9 +385,11 @@ while(golems <= 40){
         place: "hiddenland",
         monsLvl: 2,
         monsName: "golem",
+        dn: "golem",
         armorName: "",
         monsBreed: "normal",
         pos: {z: -80 + Math.random() * 80, x: -80 + Math.random() * 80},
+        posOrigin: {z: -80 + Math.random() * 80, x: -80 + Math.random() * 80},
         spd: 2 + Math.random() * .4, 
         hp: 1000,
         maxHp: 1000,
@@ -297,6 +400,9 @@ while(golems <= 40){
         isHit: false,
         targHero: undefined,
         expGain: 270,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
         //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     })
     golems += 10
@@ -307,9 +413,11 @@ monz.push({
     place: "swampforest",
     monsLvl: 2,
     monsName: "golem",
+    dn: "golem",
     armorName: "",
     monsBreed: "normal",
     pos: {z: 80, x: -7},
+    posOrigin: {z: 80, x: -7},
     spd: 2 + Math.random() * .4, 
     hp: 4000,
     maxHp: 4000,
@@ -320,6 +428,9 @@ monz.push({
     isHit: false,
     targHero: undefined,
     expGain: 250,
+    isAMinnion: false,
+    minnionOwner: undefined,
+    isSummoned: false,
     //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
 })
 // TREES HIDDEN LAND
@@ -470,6 +581,31 @@ while(hLandBacktree <= 70){
         hits: 2
     })
     hLandBacktree += 3
+}
+let endlessMistTree = -170
+while(endlessMistTree <= 140){
+    treez.push({ 
+        meshId: makeRandNum(), 
+        spawntype: "trees", 
+        place: "endlessmist", 
+        pos: `${endlessMistTree + Math.random()* 2}, ${-156 + Math.random() * 7}`,
+        hits: 200
+    })
+    treez.push({ 
+        meshId: makeRandNum(), 
+        spawntype: "trees", 
+        place: "endlessmist", 
+        pos: `${endlessMistTree + Math.random()* 2}, ${-52 + Math.random() * 10}`,
+        hits: 200
+    })
+    treez.push({ 
+        meshId: makeRandNum(), 
+        spawntype: "trees", 
+        place: "endlessmist", 
+        pos: `${-190 + Math.random()* 300}, ${-190 + Math.random()* 300}`,
+        hits: 200
+    })
+    endlessMistTree += 4
 }
 // heartLand houses
 let hLandHoR = 10
@@ -729,8 +865,8 @@ setInterval(() => {
     //     pass = true
     // }
     // END OF SWAMPFOREST AREA
-    if(pass) io.emit("add-recources", {monz, flowerz})
-}, 2000)
+    io.emit("add-recources", {monz, flowerz})
+}, 5000)
 
 io.on("connection", socket => {
     theSocket = socket
@@ -782,12 +918,21 @@ io.on("connection", socket => {
         uzers = uzers.map(user => user._id === detal._id ? {...user, mode: detal.mode } : user)
     })
     // ACTIONS FIRING !
+    socket.on("summon", data => {
+        monz.push(data.monsterDet)
+
+        io.emit("add-recources", {monz, flowerz})
+        log(data.monsterDet)
+    })
     socket.on("willcast", data => {
         const exist = uzers.find(user=>user._id === data._id)
         if(!exist) return log("cannot find uzer")
     
         io.emit('user-iscasting', data)
         uzers = uzers.map(user => user._id === data._id ? {...user, mode: "none", dirTarg: data.inFrontPos, _casting: true } : user)
+    })
+    socket.on("put-magic-circle", data => {
+        io.emit('insert-mag-circ', data)
     })
     socket.on("cast-skill", data => {
         const exist = uzers.find(user=>user._id === data._id)
@@ -947,6 +1092,7 @@ io.on("connection", socket => {
         const theMonster = monz.find(mons => mons.monsId === data.monsId)
         io.emit("monsAttack", {detal: data, theMonsterHP: theMonster ? theMonster.hp : 0})
     })
+    
     socket.on("monsterIsHit", data => {
         
         monz = monz.map(mons => mons.monsId === data.monsId ? {...mons,pos: data.pos, hp: mons.hp -= data.dmgTaken} : mons)
@@ -958,7 +1104,23 @@ io.on("connection", socket => {
         
     })
     socket.on("monsDied", data => {
+        const prevMonsterDetail = monz.find(mon => mon.monsId === data.monsId)
+        const theMonsDetail = allMonsterRecord.find(mon => mon.monsName === data.monsName)
         monz = monz.filter(mons => mons.monsId !== data.monsId)
+        if(theMonsDetail && prevMonsterDetail){
+            const {posOrigin, place} = prevMonsterDetail
+            log("the monster died and found")
+            if(!posOrigin) return log(`${prevMonsterDetail} has no posOrigin`)
+            monz.push(
+            {...theMonsDetail, 
+            pos: posOrigin, 
+            posOrigin,
+            place,
+            isAMinnion: false,
+            minnionOwner: undefined,
+            isSummoned: false,
+            monsId: makeRandNum()})        
+        }
         
         io.emit("check-monsdied", data)
     })
