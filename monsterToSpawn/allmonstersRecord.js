@@ -18,6 +18,7 @@ const allMonsterRecord = [
         isHit: false,
         targHero: undefined,
         expGain: 270,
+        desc: "Huge Monster that protects the forest, It harms everyone it sees"
         //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     },
     { 
@@ -39,6 +40,7 @@ const allMonsterRecord = [
         isHit: false,
         targHero: undefined,
         expGain: 150,
+        desc: "Ferocious monster that can poison you to death",
         effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     },
     { 
@@ -60,6 +62,7 @@ const allMonsterRecord = [
         isHit: false,
         targHero: undefined,
         expGain: 1040,
+        desc: "The monster that everyone is afraid of, It can absorb weapon damage and make transfer to its life",
         effects: { effectType: "absorb", absorbType: "weapon", defaultAbs: 20, chance: 9, dura: 100, plusDmg: 10, dmgPm: 0 }
     },
     { 
@@ -80,7 +83,8 @@ const allMonsterRecord = [
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 10
+        expGain: 10,
+        desc: "Cute monsters that bite, their meat is delicious"
     },
     { 
         monsId: makeRandNum(), 
@@ -100,7 +104,71 @@ const allMonsterRecord = [
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 40
+        expGain: 40,
+        desc: "Small monsters but they can hunt for thei prey"
+    },
+    { 
+        monsId: makeRandNum(), 
+        place: "swampforest",
+        monsLvl: 5,
+        monsName: "ghost",
+        dn: "ghost",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: -70 + Math.random() * 10, z: -70 + Math.random()*100},
+        spd: 2.7 + Math.random() * .5,
+        hp: 700,
+        maxHp: 700,
+        atkInterval: 2000, 
+        dmg: 15 + Math.random() * 30,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 20,
+        desc: "Creepy and not anything you throw can struck them"
+    },
+    { 
+        monsId: makeRandNum(), 
+        place: "swampforest",
+        monsLvl: 2,
+        monsName: "slime",
+        dn: "slime",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: -70 + Math.random() * 10, z: -70 + Math.random()*100},
+        spd: 2.4 + Math.random() * .5,
+        hp: 100,
+        maxHp: 100,
+        atkInterval: 2000, 
+        dmg: 10 + Math.random() * 10,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 10,
+        desc: "small and slimey monsters, weak but can kill if they are with their crowd"
+    },
+    { 
+        monsId: makeRandNum(), 
+        place: "swampforest",
+        monsLvl: 2,
+        monsName: "eater",
+        dn: "eater",
+        armorName: "green",
+        monsBreed: "normal",
+        pos: {x: -70 + Math.random() * 10, z: -70 + Math.random()*100},
+        spd: 3 + Math.random() * .5,
+        hp: 100,
+        maxHp: 100,
+        atkInterval: 1800, 
+        dmg: 50 + Math.random() * 20,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 100,
+        desc: "This creepy monsters lives usually inside dungeons"
     },
     { 
         monsId: makeRandNum(), 
@@ -120,7 +188,8 @@ const allMonsterRecord = [
         isAttacking: false,
         isHit: false,
         targHero: undefined,
-        expGain: 90
+        expGain: 90,
+        desc: "A monstrous beast that will chase anyone they see"
     },
     { 
         monsId: makeRandNum(), 
@@ -141,8 +210,10 @@ const allMonsterRecord = [
         isHit: false,
         targHero: undefined,
         expGain: 99,
+        desc: "Buzzing monsters, You can easily tell if they are near",
         effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
-    }
+    },
+
 ]
 
 function makeRandNum(){

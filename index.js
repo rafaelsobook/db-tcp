@@ -866,7 +866,7 @@ setInterval(() => {
     // }
     // END OF SWAMPFOREST AREA
     io.emit("add-recources", {monz, flowerz})
-}, 5000)
+}, 70000)
 
 io.on("connection", socket => {
     theSocket = socket
@@ -919,10 +919,14 @@ io.on("connection", socket => {
     })
     // ACTIONS FIRING !
     socket.on("summon", data => {
-        monz.push(data.monsterDet)
+        const theMinnion = monz.find(mon => mon.monsId === data.monsId)
+        if(theMinnion){
+            return io.emit("inform", {_id: data.minnionOwner, message: `${theMinnion.dn} is in ${theMinnion.place}`})
+        }
+        monz.push(data)
 
         io.emit("add-recources", {monz, flowerz})
-        log(data.monsterDet)
+        log(data)
     })
     socket.on("willcast", data => {
         const exist = uzers.find(user=>user._id === data._id)
@@ -1108,18 +1112,21 @@ io.on("connection", socket => {
         const theMonsDetail = allMonsterRecord.find(mon => mon.monsName === data.monsName)
         monz = monz.filter(mons => mons.monsId !== data.monsId)
         if(theMonsDetail && prevMonsterDetail){
-            const {posOrigin, place} = prevMonsterDetail
-            log("the monster died and found")
-            if(!posOrigin) return log(`${prevMonsterDetail} has no posOrigin`)
-            monz.push(
-            {...theMonsDetail, 
-            pos: posOrigin, 
-            posOrigin,
-            place,
-            isAMinnion: false,
-            minnionOwner: undefined,
-            isSummoned: false,
-            monsId: makeRandNum()})        
+
+            const {posOrigin, place, isAMinnion} = prevMonsterDetail
+            if(!isAMinnion){
+                log("the monster died and found")
+                if(!posOrigin) return log(`${prevMonsterDetail} has no posOrigin`)
+                monz.push(
+                {...theMonsDetail, 
+                pos: posOrigin, 
+                posOrigin,
+                place,
+                isAMinnion: false,
+                minnionOwner: undefined,
+                isSummoned: false,
+                monsId: makeRandNum()})   
+            }     
         }
         
         io.emit("check-monsdied", data)
@@ -1222,6 +1229,7 @@ io.on("connection", socket => {
         if(theUzer){
             uzers = uzers.filter(user => user._id !== data._id)
             monz = monz.map(mon => mon.targHero === theUzer._id ? {...mon, isChasing: false, isAttacking: false, targHero: undefined} : mon)
+            
         }
         log("total of players after disconnect " + uzers.length)
         io.emit('removeChar', data)
