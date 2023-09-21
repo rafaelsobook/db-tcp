@@ -867,7 +867,7 @@ setInterval(() => {
     // }
     // END OF SWAMPFOREST AREA
     io.emit("add-recources", {monz, flowerz})
-}, 1000 * 2)
+}, 1000 * 30)
 
 io.on("connection", socket => {
     theSocket = socket
