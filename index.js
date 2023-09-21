@@ -29,6 +29,7 @@ let orez = [
 // const {swampTreez} = require("./swampforest")
 let treez = [{ meshId: '4w2', spawntype: "trees", place: "swampforest", pos: "-50,2", hits: 2}]
 const trsureSec = require("./trsureSec.js")
+
 const hiddenLandmons = require("./monsterToSpawn/hiddenLandmons.js")
 const swampLandmons = require("./monsterToSpawn/swampLandmons.js")
 const heartLandmons = require("./monsterToSpawn/heartLandmons.js");
@@ -70,7 +71,7 @@ while(swmpHounds <= 0){
         monsBreed: "normal",
         pos: {x: -50 + Math.random() * 10, z: -50 + Math.random() * 100},
         posOrigin: {x: -50 + Math.random() * 10, z: -50 + Math.random() * 100},
-        spd: 50 + Math.random() * .5,
+        spd: 4.6 + Math.random() * .5,
         hp: 600,
         maxHp: 600,
         atkInterval: 1400, 
@@ -866,7 +867,7 @@ setInterval(() => {
     // }
     // END OF SWAMPFOREST AREA
     io.emit("add-recources", {monz, flowerz})
-}, 70000)
+}, 1000 * 2)
 
 io.on("connection", socket => {
     theSocket = socket
@@ -917,6 +918,39 @@ io.on("connection", socket => {
 
         uzers = uzers.map(user => user._id === detal._id ? {...user, mode: detal.mode } : user)
     })
+    // MINNIONS
+    socket.on("monsterIsHitByMin", data => {
+        monz = monz.map(mons => mons.monsId === data.monsId ? {...mons,pos: data.pos, hp: mons.hp -= data.dmgTaken} : mons)
+
+        const theMonster = monz.find(mons => mons.monsId === data.monsId)
+        if(!theMonster) return log("monster maybe dead")
+        if(theMonster.hp <= 0){
+            const prevMonsterDetail = monz.find(mon => mon.monsId === data.monsId)
+            const theMonsDetail = allMonsterRecord.find(mon => mon.monsName === data.monsName)
+            monz = monz.filter(mons => mons.monsId !== data.monsId)
+            if(theMonsDetail && prevMonsterDetail){
+    
+                const {posOrigin, place, isAMinnion} = prevMonsterDetail
+                if(!isAMinnion){
+                    log("the monster died and found")
+                    if(!posOrigin) return log(`${prevMonsterDetail} has no posOrigin`)
+                    monz.push(
+                    {...theMonsDetail, 
+                    pos: posOrigin, 
+                    posOrigin,
+                    place,
+                    isAMinnion: false,
+                    minnionOwner: undefined,
+                    isSummoned: false,
+                    monsId: makeRandNum()})   
+                }     
+            }        
+            io.emit("check-monsdied", data)
+        }else{
+            io.emit("monsterGotHitByMinn", {...data, monsCurrentHp: theMonster.hp})
+        }
+        
+    })
     // ACTIONS FIRING !
     socket.on("summon", data => {
         const theMinnion = monz.find(mon => mon.monsId === data.monsId)
@@ -924,10 +958,10 @@ io.on("connection", socket => {
             return io.emit("inform", {_id: data.minnionOwner, message: `${theMinnion.dn} is in ${theMinnion.place}`})
         }
         monz.push(data)
-
         io.emit("add-recources", {monz, flowerz})
         log(data)
     })
+
     socket.on("willcast", data => {
         const exist = uzers.find(user=>user._id === data._id)
         if(!exist) return log("cannot find uzer")
@@ -1094,9 +1128,14 @@ io.on("connection", socket => {
     socket.on("monsWillAttack", data => {
         monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isAttacking: true, isChasing: false, targHero: data.targHero, pos: data.pos} : mon)
         const theMonster = monz.find(mons => mons.monsId === data.monsId)
+        if(!theMonster) return log("not foudn monster will attack")
         io.emit("monsAttack", {detal: data, theMonsterHP: theMonster ? theMonster.hp : 0})
     })
-    
+    socket.on("minion-attack", data => {
+        monz = monz.map(mon => mon.monsId === data.monsId ? {...mon, isAttacking: true,place: data.place, isChasing: false, targHero: data.targHero, pos: data.pos} : mon)
+        
+        io.emit("minionAttacked", data)
+    })
     socket.on("monsterIsHit", data => {
         
         monz = monz.map(mons => mons.monsId === data.monsId ? {...mons,pos: data.pos, hp: mons.hp -= data.dmgTaken} : mons)
@@ -1108,15 +1147,17 @@ io.on("connection", socket => {
         
     })
     socket.on("monsDied", data => {
+ 
         const prevMonsterDetail = monz.find(mon => mon.monsId === data.monsId)
         const theMonsDetail = allMonsterRecord.find(mon => mon.monsName === data.monsName)
         monz = monz.filter(mons => mons.monsId !== data.monsId)
         if(theMonsDetail && prevMonsterDetail){
-
             const {posOrigin, place, isAMinnion} = prevMonsterDetail
+
+            if(!posOrigin) return log(`${prevMonsterDetail.monsName} has no posOrigin means this is a minnion`)
             if(!isAMinnion){
-                log("the monster died and found")
-                if(!posOrigin) return log(`${prevMonsterDetail} has no posOrigin`)
+                log("the monster died is not a minnion")
+                log("the monster that died prev place " + place)
                 monz.push(
                 {...theMonsDetail, 
                 pos: posOrigin, 
@@ -1125,10 +1166,9 @@ io.on("connection", socket => {
                 isAMinnion: false,
                 minnionOwner: undefined,
                 isSummoned: false,
-                monsId: makeRandNum()})   
-            }     
-        }
-        
+                monsId: makeRandNum()})  
+            }
+        }        
         io.emit("check-monsdied", data)
     })
     socket.on('playerIsHit', data => {
@@ -1152,6 +1192,7 @@ io.on("connection", socket => {
             const newArr = uzers.filter(user => user._id !== data._id)
             uzers = newArr
             monz = monz.map(mon => mon.targHero === data._id ? {...mon, isChasing: false, isAttacking: false, targHero: undefined} : mon)
+            monz = monz.filter(mon => mon.minnionOwner !== data._id)
             io.emit("aUserDied", data)
         }else{log("a user not found ! line 153")}
     })
