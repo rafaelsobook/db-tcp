@@ -18,6 +18,7 @@ const allMonsterRecord = [
         isHit: false,
         targHero: undefined,
         expGain: 270,
+        longrange: "once",
         desc: "Huge Monster that protects the forest, It harms everyone it sees"
         //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     },
@@ -210,10 +211,35 @@ const allMonsterRecord = [
         isHit: false,
         targHero: undefined,
         expGain: 99,
+        longrange: "once",
         desc: "Buzzing monsters, You can easily tell if they are near",
         effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     },
-
+    { 
+        monsId: makeRandNum(), 
+        place: "endlessmist",
+        monsLvl: 2,
+        monsName: "monsterTree",
+        dn: "Forest Protector",
+        armorName: "",
+        monsBreed: "normal",
+        pos: {z: 10, x: 17},
+        posOrigin: {z: 10, x: 17},
+        spd: 3 + Math.random() * .4, 
+        hp: 10000,
+        maxHp: 10000,
+        atkInterval: 1800, 
+        dmg: 500 + Math.random() * 100,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 300,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
+        longrange: "twice"
+    }
 ]
 
 function makeRandNum(){

@@ -17,7 +17,19 @@ let lootz = [
         name: "oakblade", place: "heartland", plusDef: 0,
         durability: 3000, cState: 3000, plusDmg: 35, plusMag: 20, price: 1000,
         x: -53, z: 21
-    }
+    },
+    // {
+    //     itemType:"sword",magRes: 0, meshId: makeRandNum(), 
+    //     name: "majesty", place: "heartland", plusDef: 0,
+    //     durability: 7000, cState: 7000, plusDmg: 35, plusMag: 20, price: 1000,
+    //     x: 0, z: -21
+    // },
+    // {
+    //     itemType:"sword",magRes: 0, meshId: makeRandNum(), 
+    //     name: "demonsidle", place: "heartland", plusDef: 0,
+    //     durability: 7000, cState: 7000, plusDmg: 35, plusMag: 20, price: 1000,
+    //     x: 0, z: -25
+    // },
 ]
 let monz = []
 let seedz = []
@@ -138,7 +150,35 @@ while(mistMonsters <= 100){
         isAMinnion: false,
         minnionOwner: undefined,
         isSummoned: false,
+        longrange: "once",
         effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
+    })
+    // monster tree in hidden mist
+    monz.push({ 
+        monsId: makeRandNum(), 
+        place: "endlessmist",
+        monsLvl: 2,
+        monsName: "monsterTree",
+        dn: "Forest Protector",
+        armorName: "",
+        monsBreed: "normal",
+        pos: {z: 10 + Math.random()*5 , x: 24 + Math.random()*5},
+        posOrigin: {z: 10 + Math.random()*5, x: 24 + Math.random()*5},
+        spd: 3.5 + Math.random() * .4, 
+        hp: 10000,
+        maxHp: 10000,
+        atkInterval: 1800, 
+        dmg: 500 + Math.random() * 100,
+        isChasing: false,
+        isAttacking: false,
+        isHit: false,
+        targHero: undefined,
+        expGain: 300,
+        isAMinnion: false,
+        minnionOwner: undefined,
+        isSummoned: false,
+        longrange: "twice", // once(once lang titira ng long range) // twice pag intersect in at out
+        //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
     })
     mistMonsters += 4
 }
@@ -417,8 +457,8 @@ monz.push({
     dn: "golem",
     armorName: "",
     monsBreed: "normal",
-    pos: {z: 80, x: -7},
-    posOrigin: {z: 80, x: -7},
+    pos: {z: 61, x: -6},
+    posOrigin: {z:61, x: -6},
     spd: 2 + Math.random() * .4, 
     hp: 4000,
     maxHp: 4000,
@@ -434,6 +474,7 @@ monz.push({
     isSummoned: false,
     //effects: { effectType: "poisoned", chance: 6, dura: 1000, plusDmg: 50, dmgPm: 30 }
 })
+
 // TREES HIDDEN LAND
 let hlandTrees = 0
 while(hlandTrees <= 190){
@@ -867,7 +908,7 @@ setInterval(() => {
     // }
     // END OF SWAMPFOREST AREA
     io.emit("add-recources", {monz, flowerz})
-}, 1000 * 30)
+}, 1000 * 50)
 
 io.on("connection", socket => {
     theSocket = socket
