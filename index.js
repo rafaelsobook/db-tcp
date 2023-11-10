@@ -52,6 +52,7 @@ let treasurez = trsureSec;
 let housez = []
 let bonfires = [{meshId: 'bon12bas', isCooking: false, pos: {x: -14, z: -21}, place: 'swampforest'}]
 let bedleaves = []
+let getelds = []
 
 app.get("/", (req, res) => {
     res.send(uzers).status(200)
@@ -921,7 +922,9 @@ io.on("connection", socket => {
         }else{
             uzers.push({...data, socketId: socket.id})
             log(`${data.name} has joined`)
-            io.emit("userJoined", {_id: data._id, place: data.currentPlace,uzers,orez,treez, seedz, monz, treasurez, lootz, housez, bonfires,bedleaves, flowerz}) //monz is the AI monsters    
+            io.emit("userJoined", {_id: data._id, place: data.currentPlace,
+                uzers,orez,treez, seedz, monz, treasurez, lootz, 
+                housez, bonfires,bedleaves,getelds, flowerz}) //monz is the AI monsters    
         }
     })
     socket.on("stop", detal => {
@@ -1133,6 +1136,11 @@ io.on("connection", socket => {
         bedleaves.push(data)
 
         io.emit('bedleave-crafted', bedleaves)
+    })
+    socket.on("put-geteld", data => {
+        getelds.push(data)
+
+        io.emit('geteld-crafted', getelds)
     })
     // spawncheats by admin
     socket.on("sft", data => {
