@@ -102,7 +102,7 @@ while(swmpHounds <= 0){
     swmpHounds += 4
 }
 let mistMonsters = -15
-while(mistMonsters <= 100){
+while(mistMonsters <= 60){
     monz.push({ 
         monsId: makeRandNum(), 
         place: "endlessmist",
@@ -163,8 +163,8 @@ while(mistMonsters <= 100){
         dn: "Forest Protector",
         armorName: "",
         monsBreed: "normal",
-        pos: {z: 10 + Math.random()*5 , x: -24 + Math.random()*25},
-        posOrigin: {z: 10 + Math.random()*5, x: -24 + Math.random()*25},
+        pos: {z: 10 + Math.random()*15 , x: -100 + Math.random()*250},
+        posOrigin: {z: 10 + Math.random()*15 , x: -100 + Math.random()*250},
         spd: 3.5 + Math.random() * .4, 
         hp: 10000,
         maxHp: 10000,
@@ -1310,8 +1310,8 @@ io.on("connection", socket => {
     })
     // WORLD CHAT
     socket.on('sendto-world', data => {
-        worldMessage.push(data)
-        io.emit('sentto-world', worldMessage)
+        worldMessage.push(data)//world message array is a bit useless now because im not using it instead im using the whole message from the mongo db database
+        io.emit('sentto-world', data)
     })
     // DISCONNECTIONS
     socket.on('dispose', data => {
