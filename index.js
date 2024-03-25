@@ -59,7 +59,13 @@ app.get("/", (req, res) => {
 })
 const io = new Server(server, {
     cors: { 
-        origin:["https://dungeon-born.com", 'https://rafael29.itch.io/dungeon-born','https://v6p9d9t4.ssl.hwcdn.net','http://localhost:8080', 'https://dungeonborn.vercel.app'],
+        origin:[
+        "https://dungeon-born.com", 
+        "https://html-classic.itch.zone", 
+        'https://rafael29.itch.io/dungeon-born',
+        'https://v6p9d9t4.ssl.hwcdn.net',
+        // 'http://localhost:8080', // remove this when production build
+        'https://dungeonborn.vercel.app'],
         methods: ["GET", "POST"]
     }
 })
